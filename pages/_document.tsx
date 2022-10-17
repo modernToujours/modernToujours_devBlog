@@ -21,10 +21,6 @@ class MyDocument extends Document {
             name="description"
             content="modernToujours의 기술 블로그입니다."
           />
-          <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
-          />
           <meta charSet="utf-8"></meta>
         </Head>
         <body>
