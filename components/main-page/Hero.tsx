@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
+import { Typography, Box, Card } from "@mui/material";
 
 const Hero: React.FC = () => {
   return (
@@ -34,8 +33,28 @@ const Hero: React.FC = () => {
           />
         </Card>
         <Box sx={{ fontWeight: "bold", fontFamily: "Roboto" }}>
-          <h2>안녕하세요. 반갑습니다.</h2>
-          <h2>맛집블로거 modernToujours 입니다.</h2>
+          <Typography
+            variant="h3"
+            sx={{
+              margin: "10px 10px",
+              wordBreak: "keep-all",
+              wordWrap: "keep-all",
+              fontWeight: "bolder",
+            }}
+          >
+            안녕하세요. 반갑습니다.
+          </Typography>
+          <Typography
+            variant="h4"
+            sx={{
+              margin: "15px 15px",
+              wordBreak: "keep-all",
+              wordWrap: "keep-all",
+              fontWeight: "bold",
+            }}
+          >
+            맛집블로거 <strong>modernToujours</strong> 입니다.
+          </Typography>
         </Box>
       </Box>
     </section>
