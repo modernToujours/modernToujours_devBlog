@@ -4,6 +4,7 @@ import MenuItem from "./MenuItem";
 import { Menu as MuiMenu } from "@mui/material";
 import ListIcon from "@mui/icons-material/List";
 import { Button } from "@mui/material";
+import DarkModeToggler from "./DarkModeToggler";
 
 const MenuWrap = styled.div`
   display: flex;
@@ -21,25 +22,18 @@ const Menu: React.FC = () => {
 
   return (
     <MenuWrap>
+      <DarkModeToggler />
       <Button
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
-        color="primary"
+        sx={{ marginRight: "20px" }}
       >
-        <ListIcon color="inherit" />
+        <ListIcon fontSize="large" sx={{ color: "text.primary" }} />
       </Button>
-      <MuiMenu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
+      <MuiMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem name="menu1" linkName="menu1" />
         <MenuItem name="menu2" />
         <MenuItem name="menu3" />
