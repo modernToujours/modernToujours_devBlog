@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import ColorModeContext from "../../context/ColorModeContext";
+import ColorModeContext from "../../../context/ColorModeContext";
 import IconButton from "@mui/material/IconButton";
 import { useTheme } from "@mui/material/styles";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -11,7 +11,7 @@ const DarkModeToggler = () => {
 
   return (
     <IconButton
-      sx={{ ml: 1 }}
+      sx={{ marginRight: { xs: "3px", sm: "5px" } }}
       onClick={colorMode.toggleColorMode}
       color="inherit"
     >
