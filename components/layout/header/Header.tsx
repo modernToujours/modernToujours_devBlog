@@ -1,22 +1,25 @@
 import styled from "@emotion/styled";
 import React from "react";
+import Box from "@mui/material/Box";
 import LogoItem from "./LogoItem";
 import Menu from "./Menu";
-import MenuItem from "./MenuItem";
-
-const HeaderWrap = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  background-color: black;
-`;
 
 const Header: React.FC = () => {
   return (
-    <HeaderWrap>
+    <Box
+      sx={{
+        width: "100%",
+        height: "70px",
+        justifyContent: "space-between",
+        display: "flex",
+        bgcolor: "background.default",
+        color: "text.primary",
+        position: "fixed",
+      }}
+    >
       <LogoItem />
       <Menu />
-    </HeaderWrap>
+    </Box>
   );
 };
 

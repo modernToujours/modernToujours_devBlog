@@ -1,7 +1,4 @@
-import React from "react";
-
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-
 import MenuItem, { MenuItemProps } from "./MenuItem";
 
 export default {

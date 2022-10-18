@@ -1,33 +1,34 @@
 import React from "react";
 import CodeIcon from "@mui/icons-material/Code";
+import Box from "@mui/material/Box";
 import styled from "@emotion/styled";
 import { MenuItem } from "@mui/material";
 import Link from "next/link";
 
-export const LogoItemWrap = styled.div`
-  width: 200px;
-  height: 50px;
-  background-color: black;
-  justify-content: center;
-  color: white;
-  display: flex;
-  margin-left: 15px;
-`;
-
 export const LogoText = styled.div`
   margin-left: 10px;
+  size: 20px;
+  font-size: 24px;
 `;
 
 const LogoItem: React.FC = () => {
   return (
-    <LogoItemWrap>
+    <Box
+      sx={{
+        width: "300px",
+        height: "100%",
+        justifyContent: "center",
+        display: "flex",
+        marginLeft: "15px",
+      }}
+    >
       <Link href={"/"}>
         <MenuItem>
-          <CodeIcon />
+          <CodeIcon fontSize="large" />
           <LogoText>modernToujours.dev</LogoText>
         </MenuItem>
       </Link>
-    </LogoItemWrap>
+    </Box>
   );
 };
 

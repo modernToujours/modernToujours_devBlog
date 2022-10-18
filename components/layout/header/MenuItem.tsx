@@ -9,6 +9,7 @@ const MenuItemWrap = styled.div`
   width: 100px;
   height: 50px;
   display: border-box;
+  font-size: 24px;
 `;
 
 const MenuItem: React.FC<MenuItemProps> = (props) => {
