@@ -2,6 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import LogoItem from "./LogoItem";
 import Menu from "./Menu";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Header: React.FC = () => {
   return (
