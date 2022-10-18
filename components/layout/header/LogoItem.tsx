@@ -6,7 +6,7 @@ import { Typography } from "@mui/material";
 import Link from "next/link";
 import { styled } from "@mui/system";
 
-const LogoText = styled(Typography)({
+const LogoText: typeof Typography = styled(Typography)({
   marginLeft: { xs: "5px", sm: "10px" },
   fontSize: { xs: "22px", sm: "25px" },
   fontFamily: "Arial",
