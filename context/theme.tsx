@@ -20,6 +20,10 @@ export const darkTheme: ThemeOptions = createTheme({
     warning: {
       main: "#fb6b00",
     },
+    background: {
+      default: "#111111",
+      paper: "#444444",
+    },
   },
 });
 
@@ -43,7 +47,8 @@ export const lightTheme: ThemeOptions = createTheme({
       main: "#fb6b00",
     },
     background: {
-      default: "#999999",
+      default: "#bbbbbb",
+      paper: "#ffffff",
     },
   },
 });

@@ -9,6 +9,8 @@ export const LogoText = styled.div`
   margin-left: 10px;
   size: 20px;
   font-size: 24px;
+  font-family: "0swald", sans-serif;
+  font-weight: bold;
 `;
 
 const LogoItem: React.FC = () => {
