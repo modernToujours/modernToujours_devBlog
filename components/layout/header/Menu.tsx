@@ -29,7 +29,7 @@ const Menu: React.FC = () => {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
-        sx={{ marginRight: "20px" }}
+        sx={{ marginRight: { xs: "10px", sm: "20px" } }}
       >
         <ListIcon fontSize="large" sx={{ color: "text.primary" }} />
       </Button>
