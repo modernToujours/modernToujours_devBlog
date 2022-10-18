@@ -1,6 +1,5 @@
-import React from "react";
-import { useState, useMemo, Provider } from "react";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { useState, useMemo } from "react";
+import { ThemeProvider } from "@mui/material/styles";
 import { ThemeOptions } from "@mui/material";
 import ColorModeContext from "./ColorModeContext";
 import { darkTheme, lightTheme } from "./theme";
