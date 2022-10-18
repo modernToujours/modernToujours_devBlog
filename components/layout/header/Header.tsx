@@ -16,6 +16,7 @@ const Header: React.FC = () => {
           bgcolor: "background.default",
           color: "text.primary",
           position: "fixed",
+          zIndex: "1000",
         }}
       >
         <LogoItem />
