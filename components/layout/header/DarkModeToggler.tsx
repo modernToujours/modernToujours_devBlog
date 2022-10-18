@@ -11,7 +11,7 @@ const DarkModeToggler = () => {
 
   return (
     <IconButton
-      sx={{ ml: 1 }}
+      sx={{ marginRight: { xs: "3px", sm: "5px" } }}
       onClick={colorMode.toggleColorMode}
       color="inherit"
     >

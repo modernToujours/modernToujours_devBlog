@@ -17,13 +17,13 @@ const LogoItem: React.FC = () => {
     >
       <Link href={"/"}>
         <MenuItem>
-          <CodeIcon sx={{ fontSize: { xs: "35px", sm: "45px" } }} />
+          <CodeIcon sx={{ fontSize: { xs: "30px", sm: "45px" } }} />
           <Typography
             sx={{
               fontFamily: "Arial",
               fontWeight: "bold",
-              fontSize: { xs: "22px", sm: "25px" },
-              marginLeft: { xs: "5px", sm: "10px" },
+              fontSize: { xs: "20px", sm: "25px" },
+              marginLeft: { xs: "3px", sm: "10px" },
             }}
           >
             modernToujours.dev
