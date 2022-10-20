@@ -23,7 +23,6 @@ const ContactForm = () => {
       <Button
         sx={{
           width: "250px",
-          margin: "auto",
           height: "60px",
           margin: "15px auto",
         }}
