@@ -7,12 +7,18 @@ const ContactForm = () => {
       sx={{
         width: {
           xs: "400px",
-          sm: "700px",
+          sm: "600px",
+        },
+        minWidth: {
+          xs: "300px",
+        },
+        margin: {
+          xs: "20px",
+          sm: "30px 20px",
         },
         borderRadius: "10px",
         padding: "25px",
         height: "700px",
-        margin: "30px auto",
       }}
     >
       <CardContent sx={{ display: "flex", flexDirection: "column" }}>
