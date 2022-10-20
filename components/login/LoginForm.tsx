@@ -24,6 +24,7 @@ const LoginForm: React.FC = () => {
             width: "250px",
             height: "60px",
             margin: "auto",
+            marginBottom: "15px",
           }}
           variant="outlined"
         >
@@ -34,6 +35,7 @@ const LoginForm: React.FC = () => {
             width: "250px",
             height: "60px",
             margin: "auto",
+            marginBottom: "15px",
           }}
           variant="outlined"
         >

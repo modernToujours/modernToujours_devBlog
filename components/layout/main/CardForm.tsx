@@ -8,11 +8,10 @@ const CardForm: React.FC<CardFormProps> = ({ children }) => {
     <Card
       sx={{
         width: {
-          xs: "400px",
           sm: "600px",
         },
         minWidth: {
-          xs: "300px",
+          xs: "200px",
         },
         margin: {
           xs: "20px",
@@ -20,7 +19,6 @@ const CardForm: React.FC<CardFormProps> = ({ children }) => {
         },
         borderRadius: "10px",
         padding: "25px",
-        height: "700px",
       }}
     >
       <CardContent sx={{ display: "flex", flexDirection: "column" }}>

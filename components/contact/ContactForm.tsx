@@ -17,15 +17,15 @@ const ContactForm = () => {
         sx={{ marginTop: "20px" }}
         type="text"
         multiline
-        rows={10}
+        rows={6}
         label="Content"
       />
       <Button
         sx={{
-          margin: "20px auto",
-          minWidth: "250px",
-          width: "300px",
+          width: "250px",
+          margin: "auto",
           height: "60px",
+          margin: "15px auto",
         }}
         variant="outlined"
       >
