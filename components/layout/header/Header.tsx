@@ -11,6 +11,7 @@ const Header: React.FC = () => {
         sx={{
           width: "100%",
           height: "70px",
+          top: "0",
           justifyContent: "space-between",
           display: "flex",
           bgcolor: "background.default",

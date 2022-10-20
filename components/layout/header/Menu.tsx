@@ -36,7 +36,7 @@ const Menu: React.FC = () => {
       <MuiMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem name="menu1" linkName="menu1" />
         <MenuItem name="menu2" />
-        <MenuItem name="menu3" />
+        <MenuItem name="contact" />
       </MuiMenu>
     </MenuWrap>
   );

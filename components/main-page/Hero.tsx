@@ -7,8 +7,8 @@ const Hero: React.FC = () => {
     <section>
       <Box
         sx={{
+          margin: "100px auto",
           textAlign: "center",
-          display: "flex",
           justifyContent: "center",
           backgroundColor: "background.paper",
           color: "text.primary",
@@ -22,7 +22,6 @@ const Hero: React.FC = () => {
             height: "300px",
             background: "background.paper",
             margin: "30px auto",
-            overflow: "hidden",
           }}
         >
           <Image

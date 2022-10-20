@@ -5,10 +5,6 @@ import { Fragment } from "react";
 import Hero from "../components/main-page/Hero";
 
 const Home: NextPage = () => {
-  const Main = styled.main`
-    padding-top: 70px;
-  `;
-
   return (
     <Fragment>
       <Head>
@@ -19,9 +15,7 @@ const Home: NextPage = () => {
         />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <Main>
-        <Hero />
-      </Main>
+      <Hero />
     </Fragment>
   );
 };
