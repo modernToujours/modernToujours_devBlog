@@ -1,7 +1,7 @@
 import React from "react";
 
-const index = () => {
-  return <div>Hello</div>;
+const Menu2 = () => {
+  return <div>Menu2</div>;
 };
 
-export default index;
+export default Menu2;
