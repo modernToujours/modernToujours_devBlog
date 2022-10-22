@@ -9,7 +9,3 @@ export const connectDatabase = async () => {
 
   return client;
 };
-
-export const closeConnect = async (client: MongoClient): Promise<void> => {
-  client.close();
-};
