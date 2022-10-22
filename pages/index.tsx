@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { Fragment } from "react";
 import Hero from "../components/main-page/Hero";
@@ -21,3 +21,10 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {},
+    revalidate: 600,
+  };
+};

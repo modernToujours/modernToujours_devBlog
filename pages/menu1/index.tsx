@@ -1,3 +1,4 @@
+import { GetStaticProps } from "next";
 import React from "react";
 
 const Menu2 = () => {
@@ -5,3 +6,10 @@ const Menu2 = () => {
 };
 
 export default Menu2;
+
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {},
+    revalidate: 600,
+  };
+};
