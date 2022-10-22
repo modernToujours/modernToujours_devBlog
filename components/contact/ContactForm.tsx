@@ -4,6 +4,7 @@ import React, {
   ChangeEventHandler,
   MouseEventHandler,
   useState,
+  useEffect,
 } from "react";
 import axios from "axios";
 
@@ -24,6 +25,27 @@ const ContactForm: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const [nameInputError, setNameInputError] = useState<string | null>(null);
+  const [emailInputError, setEmailInputError] = useState<string | null>(null);
+  const [messageInputError, setMessageInputError] =
+    useState<string | null>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (name !== "" && name.length < 2)
+        setNameInputError("이름은 최소 두글자를 입력해주세요!");
+      else setNameInputError("");
+
+      if (email !== "" && !email.includes("@"))
+        setEmailInputError("잘못된 이메일 형식입니다!");
+      else setEmailInputError("");
+
+      if (message !== "" && message.length < 10)
+        setMessageInputError("최소 열글자를 입력해주세요!");
+      else setMessageInputError("");
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [name, email, message]);
 
   const closeAlert = (event: SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
@@ -42,6 +64,9 @@ const ContactForm: React.FC = () => {
   const inputNameHandler: ChangeEventHandler<HTMLInputElement> = (
     event: ChangeEvent<HTMLInputElement>
   ) => {
+    const timer: NodeJS.Timeout = setTimeout(() => {
+      console.log("hi");
+    }, 1000);
     setName(event.target.value);
   };
 
@@ -62,7 +87,9 @@ const ContactForm: React.FC = () => {
       .post("api/contact", { name, email, message })
       .then((res) => {
         setOpenSuccess(true);
-        console.log(res);
+        setName("");
+        setEmail("");
+        setMessage("");
       })
       .catch((_) => {
         setOpenFail(true);
@@ -78,21 +105,27 @@ const ContactForm: React.FC = () => {
       </Typography>
       <Divider sx={{ marginTop: "20px" }} />
       <TextField
+        error={nameInputError ? true : false}
         sx={{ marginTop: "20px" }}
+        helperText={nameInputError}
         type="name"
         label="Name"
         value={name}
         onChange={inputNameHandler}
       />
       <TextField
+        error={emailInputError ? true : false}
         sx={{ marginTop: "20px" }}
+        helperText={emailInputError}
         type="email"
         label="Email"
         value={email}
         onChange={inputEmailHandler}
       />
       <TextField
+        error={messageInputError ? true : false}
         sx={{ marginTop: "20px" }}
+        helperText={messageInputError}
         type="text"
         multiline
         rows={6}
