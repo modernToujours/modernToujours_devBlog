@@ -64,9 +64,6 @@ const ContactForm: React.FC = () => {
   const inputNameHandler: ChangeEventHandler<HTMLInputElement> = (
     event: ChangeEvent<HTMLInputElement>
   ) => {
-    const timer: NodeJS.Timeout = setTimeout(() => {
-      console.log("hi");
-    }, 1000);
     setName(event.target.value);
   };
 
@@ -116,8 +113,8 @@ const ContactForm: React.FC = () => {
       <Divider sx={{ marginTop: "20px" }} />
       <TextField
         error={nameInputError ? true : false}
-        sx={{ marginTop: "20px" }}
         helperText={nameInputError}
+        sx={{ marginTop: "20px" }}
         type="name"
         label="Name"
         value={name}
@@ -125,8 +122,8 @@ const ContactForm: React.FC = () => {
       />
       <TextField
         error={emailInputError ? true : false}
-        sx={{ marginTop: "20px" }}
         helperText={emailInputError}
+        sx={{ marginTop: "20px" }}
         type="email"
         label="Email"
         value={email}
@@ -134,7 +131,7 @@ const ContactForm: React.FC = () => {
       />
       <TextField
         error={messageInputError ? true : false}
-        sx={{ marginTop: "20px" }}
+        sx={{ margin: "20px 0" }}
         helperText={messageInputError}
         type="text"
         multiline
