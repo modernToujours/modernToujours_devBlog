@@ -7,13 +7,18 @@ import React, {
   useEffect,
 } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Divider, TextField, Box } from "@mui/material";
-import { Typography, Button } from "@mui/material";
+import { Typography, Button, Snackbar, Alert } from "@mui/material";
 import CardForm from "../layout/main/CardForm";
+import axios, { AxiosResponse } from "axios";
+
+type UserType = { name: string; email: string; password: string };
 
 const SignUpForm: React.FC = () => {
   const [openSuccess, setOpenSuccess] = useState<boolean>(false);
   const [openFail, setOpenFail] = useState<boolean>(false);
+  const [failMessage, setFailMessage] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -21,6 +26,8 @@ const SignUpForm: React.FC = () => {
   const [emailInputError, setEmailInputError] = useState<string | null>(null);
   const [passwordInputError, setPasswordInputError] =
     useState<string | null>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -40,6 +47,37 @@ const SignUpForm: React.FC = () => {
     return () => clearTimeout(timer);
   }, [name, email, password]);
 
+  const closeAlert = (event: SyntheticEvent | Event, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSuccess(false);
+  };
+
+  const closeFailAlert = (event: SyntheticEvent | Event, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenFail(false);
+  };
+
+  const createUser: (user: UserType) => Promise<UserType> = async ({
+    name,
+    email,
+    password,
+  }) => {
+    const res = await axios.post(
+      "/api/auth/signup",
+      { name, email, password },
+      { headers: { "Content-Type": "application/json" } }
+    );
+    const data = res.data;
+    if (res.status !== 201) {
+      throw new Error(data.message || "Something went wrong!");
+    }
+    return data;
+  };
+
   const inputNameHandler: ChangeEventHandler<HTMLInputElement> = (
     event: ChangeEvent<HTMLInputElement>
   ) => {
@@ -56,6 +94,48 @@ const SignUpForm: React.FC = () => {
     event: ChangeEvent<HTMLTextAreaElement>
   ) => {
     setPassword(event.target.value);
+  };
+
+  const submitHandler: MouseEventHandler<HTMLButtonElement> = async () => {
+    setFailMessage("");
+    let validate = true;
+
+    if (name === "" || name.length < 2) {
+      setNameInputError("이름은 최소 두글자를 입력해주세요!");
+      setOpenFail(true);
+      validate = false;
+    }
+
+    if (email === "" || !email.includes("@")) {
+      setEmailInputError("잘못된 이메일 형식입니다!");
+      setOpenFail(true);
+      validate = false;
+    }
+
+    if (password === "" && password.length < 10) {
+      setPasswordInputError("최소 열글자를 입력해주세요!");
+      setOpenFail(true);
+      validate = false;
+    }
+
+    if (!validate) return;
+
+    try {
+      const result: UserType = await createUser({
+        name,
+        email,
+        password,
+      });
+    } catch (error: any) {
+      setOpenFail(true);
+      setFailMessage(error.response.data.message);
+      setEmailInputError("사용중인 이메일 입니다!!");
+      return;
+    }
+    setOpenSuccess(true);
+    setTimeout(() => {
+      router.push("/login");
+    }, 500);
   };
 
   return (
@@ -103,11 +183,22 @@ const SignUpForm: React.FC = () => {
               marginBottom: "15px",
             }}
             variant="outlined"
+            onClick={submitHandler}
           >
             <Typography sx={{ fontSize: "14px" }}>SignUp</Typography>
           </Button>
         </Link>
       </Box>
+      <Snackbar open={openSuccess} autoHideDuration={3000}>
+        <Alert severity="success" sx={{ width: "100%" }} onClose={closeAlert}>
+          Success!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={openFail} autoHideDuration={3000}>
+        <Alert severity="error" onClose={closeFailAlert} sx={{ width: "100%" }}>
+          {failMessage || "입력란을 다시 확인해주세요!"}
+        </Alert>
+      </Snackbar>
     </CardForm>
   );
 };

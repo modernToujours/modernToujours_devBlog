@@ -1,4 +1,4 @@
-import { connectDatabase, closeConnect } from "../../lib/connect";
+import { connectDatabase } from "../../lib/connect";
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { InsertOneResult, MongoClient } from "mongodb";
 
