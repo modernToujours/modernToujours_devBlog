@@ -51,7 +51,6 @@ const handler: NextApiHandler = async (
       res.status(500).json({ message: "Could not connect to database." });
       return;
     }
-    console.log("ok2");
 
     try {
       const db = client.db(process.env.mongodb_database);
@@ -60,6 +59,8 @@ const handler: NextApiHandler = async (
       result = await collection.insertOne(newMessage);
 
       newMessage.id = result.insertedId;
+
+      res.end(JSON.stringify(newMessage));
     } catch (error) {
       closeConnect(client);
       res.status(500).json({ message: "Storing message failed!" });
