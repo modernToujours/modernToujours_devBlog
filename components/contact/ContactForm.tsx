@@ -83,6 +83,16 @@ const ContactForm: React.FC = () => {
   };
 
   const submitContactHandler: MouseEventHandler<HTMLButtonElement> = () => {
+    if (
+      !email ||
+      !email.includes("@") ||
+      !name ||
+      !message ||
+      name.trim() === "" ||
+      message.trim() === ""
+    ) {
+      setOpenFail(true);
+    }
     axios
       .post("api/contact", { name, email, message })
       .then((res) => {
