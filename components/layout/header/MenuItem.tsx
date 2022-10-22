@@ -25,7 +25,7 @@ const MenuItem: React.FC<MenuItemProps> = (props) => {
 
   return (
     <MenuItemWrap>
-      <Link href={hrefLink}>
+      <Link href={`/${hrefLink}`}>
         <MuiMenuItem
           sx={{
             justifyContent: "center",

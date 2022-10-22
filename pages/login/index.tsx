@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Box } from "@mui/material";
 import Head from "next/head";
 import LoginForm from "../../components/login/LoginForm";

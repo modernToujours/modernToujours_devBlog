@@ -1,16 +1,15 @@
-import { connectDatabase, closeConnect } from "../../lib/connect";
+import { connectDatabase } from "../../lib/connect";
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { InsertOneResult, MongoClient } from "mongodb";
-import { ContactSupportOutlined } from "@mui/icons-material";
 
-type newMessageType = {
+type NewMessageType = {
   id?: string;
   name: string;
   email: string;
   message: string;
 };
 
-type messageResultType = {
+type MessageResultType = {
   _id: string;
   name: string;
   email: string;
@@ -36,14 +35,14 @@ const handler: NextApiHandler = async (
       return;
     }
 
-    const newMessage: newMessageType = {
+    const newMessage: NewMessageType = {
       email,
       name,
       message,
     };
 
     let client: MongoClient;
-    let result: InsertOneResult<messageResultType>;
+    let result: InsertOneResult<MessageResultType>;
 
     try {
       client = await connectDatabase();
@@ -59,13 +58,13 @@ const handler: NextApiHandler = async (
       result = await collection.insertOne(newMessage);
 
       newMessage.id = result.insertedId;
-
-      res.end(JSON.stringify(newMessage));
     } catch (error) {
-      closeConnect(client);
+      client.close();
       res.status(500).json({ message: "Storing message failed!" });
       return;
     }
+    res.status(201).json({ message: "Success!" });
+    client.close();
   }
 };
 
