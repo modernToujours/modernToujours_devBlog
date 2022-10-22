@@ -3,19 +3,31 @@ import React, {
   useEffect,
   ChangeEvent,
   ChangeEventHandler,
-  MouseEventHandler,
 } from "react";
 import Link from "next/link";
-import { Divider, TextField, Box } from "@mui/material";
-import { Typography, Button } from "@mui/material";
+import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
+import {
+  Typography,
+  Button,
+  Snackbar,
+  Alert,
+  Divider,
+  TextField,
+  Box,
+} from "@mui/material";
 import CardForm from "../layout/main/CardForm";
 
 const LoginForm: React.FC = () => {
+  const [openSuccess, setOpenSuccess] = useState<boolean>(false);
+  const [openFail, setOpenFail] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [emailInputError, setEmailInputError] = useState<string | null>(null);
   const [passwordInputError, setPasswordInputError] =
     useState<string | null>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -40,6 +52,23 @@ const LoginForm: React.FC = () => {
     event: ChangeEvent<HTMLInputElement>
   ) => {
     setPassword(event.target.value);
+  };
+
+  const onLogin = async () => {
+    const result = await signIn("credentials", {
+      redirect: false,
+      email: email,
+      password: password,
+    });
+
+    if (!result?.error) {
+      setOpenSuccess(true);
+      setTimeout(() => {
+        router.push("/");
+      }, 500);
+    } else {
+      setOpenFail(true);
+    }
   };
 
   return (
@@ -77,6 +106,7 @@ const LoginForm: React.FC = () => {
             marginBottom: "15px",
           }}
           variant="outlined"
+          onClick={onLogin}
         >
           <Typography sx={{ fontSize: "14px" }}>Login</Typography>
         </Button>
@@ -94,6 +124,24 @@ const LoginForm: React.FC = () => {
           </Button>
         </Link>
       </Box>
+      <Snackbar open={openSuccess} autoHideDuration={3000}>
+        <Alert
+          severity="success"
+          sx={{ width: "100%" }}
+          onClose={() => setOpenSuccess(false)}
+        >
+          Login Success!!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={openFail} autoHideDuration={3000}>
+        <Alert
+          severity="error"
+          onClose={() => setOpenFail(false)}
+          sx={{ width: "100%" }}
+        >
+          Login Failed!!
+        </Alert>
+      </Snackbar>
     </CardForm>
   );
 };
