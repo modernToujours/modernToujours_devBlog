@@ -1,16 +1,19 @@
 import styled from "@emotion/styled";
-import React from "react";
+import React, { useEffect } from "react";
 import MenuItem from "./MenuItem";
 import { Menu as MuiMenu } from "@mui/material";
 import ListIcon from "@mui/icons-material/List";
 import { Button } from "@mui/material";
 import DarkModeToggler from "./DarkModeToggler";
+import { useSession, signOut } from "next-auth/react";
 
 const MenuWrap = styled.div`
   display: flex;
 `;
 
 const Menu: React.FC = () => {
+  const { data, status } = useSession();
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -19,6 +22,11 @@ const Menu: React.FC = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    console.log(data);
+    console.log(status);
+  }, [data, status]);
 
   return (
     <MenuWrap>
@@ -35,7 +43,18 @@ const Menu: React.FC = () => {
       </Button>
       <MuiMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem name="menu1" linkName="menu1" />
-        <MenuItem name="Login" linkName="login" />
+        {!data && status !== "loading" && (
+          <MenuItem name="Login" linkName="login" />
+        )}
+        {data && (
+          <MenuItem
+            name="Logout"
+            linkName="logout"
+            onClick={() => {
+              signOut({ redirect: false });
+            }}
+          />
+        )}
         <MenuItem name="Contact" linkName="contact" />
       </MuiMenu>
     </MenuWrap>
