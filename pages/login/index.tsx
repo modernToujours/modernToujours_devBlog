@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { Box } from "@mui/material";
 import Head from "next/head";
 import LoginForm from "../../components/login/LoginForm";
-import { GetStaticProps } from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { getSession } from "next-auth/react";
 
 const LoginPage = () => {
   return (
@@ -19,8 +19,21 @@ const LoginPage = () => {
 
 export default LoginPage;
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const session = await getSession({ req: context.req });
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   return {
-    props: {},
+    props: { session },
   };
 };
