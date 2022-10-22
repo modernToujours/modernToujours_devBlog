@@ -57,7 +57,7 @@ const handler: NextApiHandler = async (
 
   const hashedPassword = await hashPassword(password);
 
-  const existingUser = await db.collection("users").findOne({ email: email });
+  const existingUser = await collection.findOne({ email: email });
 
   if (existingUser) {
     res.status(422).json({ message: "이미 사용중인 이메일 입니다" });
