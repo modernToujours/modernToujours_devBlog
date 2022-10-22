@@ -22,7 +22,7 @@ export default NextAuth({
         email: { label: "email", type: "email" },
         password: { label: "password", type: "password" },
       },
-      authorize: async (credentials: any, _req): Promise<User> => {
+      authorize: async (credentials: any, _req): Promise<User | null> => {
         const client = await connectDatabase();
         const db = client.db(process.env.mongodb_database);
         const collection = db.collection("users");
@@ -32,7 +32,9 @@ export default NextAuth({
 
         if (!user) {
           client.close();
+
           throw new Error("No user found!");
+          return null;
         }
         const isValid = await verifyPassword(
           credentials.password,
@@ -42,6 +44,7 @@ export default NextAuth({
         if (!isValid) {
           client.close();
           throw new Error("Invalid password! Try again!");
+          return null;
         }
 
         const loginUser: User = {
@@ -52,7 +55,6 @@ export default NextAuth({
         };
 
         client.close();
-
         return loginUser;
       },
     }),
