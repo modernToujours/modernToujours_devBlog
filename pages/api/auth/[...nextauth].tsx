@@ -77,5 +77,7 @@ export default NextAuth({
     }),
   ],
   secret: process.env.SECRET,
-  adapter: MongoDBAdapter(connectDatabase(), { databaseName: "devblog" }),
+  adapter: MongoDBAdapter(connectDatabase(), {
+    databaseName: process.env.mongodb_database,
+  }),
 });
