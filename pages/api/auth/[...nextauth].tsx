@@ -56,15 +56,6 @@ export default NextAuth({
           image: null,
         };
 
-        const accountCollection = db.collection("accounts");
-
-        accountCollection.insertOne({
-          provider: "moderntoujours",
-          type: "auth",
-          userId: loginUser.id,
-          userType: "user",
-        });
-
         client.close();
         return loginUser;
       },
