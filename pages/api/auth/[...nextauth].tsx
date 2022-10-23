@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 
 import { connectDatabase } from "../../../lib/connect";
 import { verifyPassword } from "../../../lib/auth";
@@ -18,6 +19,7 @@ export default NextAuth({
   },
   providers: [
     CredentialProvider({
+      id: "credentials",
       name: "Credentials",
       credentials: {
         email: { label: "email", type: "email" },
@@ -58,6 +60,17 @@ export default NextAuth({
         client.close();
         return loginUser;
       },
+    }),
+    GitHubProvider({
+      id: "github",
+      name: "Github",
+      clientId: process.env.GITHUB_ID as string,
+      clientSecret: process.env.GITHUB_SECRET as string,
+    }),
+
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID as string,
+      clientSecret: process.env.GOOGLE_SECRET as string,
     }),
   ],
   secret: process.env.SECRET,

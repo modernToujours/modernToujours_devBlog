@@ -135,6 +135,7 @@ const LoginForm: React.FC = () => {
             marginBottom: "15px",
           }}
           variant="outlined"
+          onClick={() => signIn("github")}
         >
           <GitHubIcon />
           <Typography sx={{ fontSize: "14px", marginLeft: "5px" }}>
@@ -149,6 +150,7 @@ const LoginForm: React.FC = () => {
             marginBottom: "15px",
           }}
           variant="outlined"
+          onClick={() => signIn("google")}
         >
           <GoogleIcon />
           <Typography sx={{ fontSize: "14px", marginLeft: "5px" }}>
