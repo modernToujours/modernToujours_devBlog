@@ -11,7 +11,7 @@ type User = {
   id: string;
   name: string;
   email: string;
-  type: string;
+  image: string | null;
 };
 
 export default NextAuth({
@@ -38,7 +38,6 @@ export default NextAuth({
           client.close();
 
           throw new Error("No user found!");
-          return null;
         }
         const isValid = await verifyPassword(
           credentials.password,
@@ -48,15 +47,23 @@ export default NextAuth({
         if (!isValid) {
           client.close();
           throw new Error("Invalid password! Try again!");
-          return null;
         }
 
         const loginUser: User = {
           id: user._id.toString(),
           name: user.name,
           email: user.email,
-          type: user.type,
+          image: null,
         };
+
+        const accountCollection = db.collection("accounts");
+
+        accountCollection.insertOne({
+          provider: "moderntoujours",
+          type: "auth",
+          userId: loginUser.id,
+          userType: "user",
+        });
 
         client.close();
         return loginUser;
