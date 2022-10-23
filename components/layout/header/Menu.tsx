@@ -46,6 +46,7 @@ const Menu: React.FC = () => {
         {!data && status !== "loading" && (
           <MenuItem name="Login" linkName="login" />
         )}
+        {data && <MenuItem name="Profile" linkName="profile" />}
         {data && (
           <MenuItem
             name="Logout"

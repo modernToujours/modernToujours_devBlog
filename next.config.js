@@ -6,6 +6,9 @@ const nextConfig = {
   compiler: {
     emotion: true,
   },
+  images: {
+    domains: ["avatars.githubusercontent.com"],
+  },
 };
 
 module.exports = nextConfig;
