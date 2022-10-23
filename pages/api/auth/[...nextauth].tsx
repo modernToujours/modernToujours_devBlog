@@ -5,6 +5,7 @@ import GoogleProvider from "next-auth/providers/google";
 
 import { connectDatabase } from "../../../lib/connect";
 import { verifyPassword } from "../../../lib/auth";
+import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 
 type User = {
   id: string;
@@ -69,9 +70,12 @@ export default NextAuth({
     }),
 
     GoogleProvider({
+      id: "google",
+      name: "Google",
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
     }),
   ],
   secret: process.env.SECRET,
+  adapter: MongoDBAdapter(connectDatabase()),
 });
