@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
+import GitHubProvider from "next-auth/providers/github";
 
 import { connectDatabase } from "../../../lib/connect";
 import { verifyPassword } from "../../../lib/auth";
