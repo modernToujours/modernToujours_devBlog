@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  plugins: ["@emotion"],
+  // plugins: ["@emotion"],
   compiler: {
     emotion: true,
   },

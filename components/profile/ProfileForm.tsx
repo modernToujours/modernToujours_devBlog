@@ -5,8 +5,6 @@ import { useS3Upload } from "next-s3-upload";
 import { Typography, Divider, Card, TextField, Button } from "@mui/material";
 import CardForm from "../layout/main/CardForm";
 import axios from "axios";
-import { setCookie } from "cookies-next";
-import Router from "next/router";
 
 const ProfileForm = ({ session }: { session: Session | null }) => {
   const { name, email, image } = session?.user!;
