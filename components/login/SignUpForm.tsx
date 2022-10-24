@@ -129,7 +129,6 @@ const SignUpForm: React.FC = () => {
     } catch (error: any) {
       setOpenFail(true);
       setFailMessage(error.response.data.message);
-      setEmailInputError("사용중인 이메일 입니다!!");
       return;
     }
     setOpenSuccess(true);

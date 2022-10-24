@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent } from "@mui/material";
 
-type CardFormProps = { children: JSX.Element | JSX.Element[] };
+export type CardFormProps = { children: JSX.Element | JSX.Element[] };
 
 const CardForm: React.FC<CardFormProps> = ({ children }) => {
   return (
