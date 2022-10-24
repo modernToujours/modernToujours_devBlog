@@ -1,18 +1,30 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Session } from "next-auth";
 import { useS3Upload } from "next-s3-upload";
-import { Typography, Divider, Card, TextField, Button } from "@mui/material";
+import { Typography, Card, TextField, Button } from "@mui/material";
 import CardForm from "../layout/main/CardForm";
 import axios from "axios";
 
 const ProfileForm = ({ session }: { session: Session | null }) => {
   const { name, email, image } = session?.user!;
 
+  const [showPasswordChanger, setShowPasswordChanger] =
+    useState<boolean>(false);
+
   let [imageUrl, setImageUrl] = useState<string>(
     "/images/no-profile-image.png"
   );
   let { FileInput, openFileDialog, uploadToS3 } = useS3Upload();
+
+  useEffect(() => {
+    axios.get(`/api/user/provider?email=${email}`).then((res) => {
+      if (res.data.provider === "moderntoujours") {
+        setShowPasswordChanger(true);
+      }
+    });
+  }, [email]);
 
   useEffect(() => {
     if (image) {
@@ -71,7 +83,23 @@ const ProfileForm = ({ session }: { session: Session | null }) => {
         value={email}
         disabled
       />
-      <Divider sx={{ marginTop: "20px" }} />
+      <React.Fragment>
+        {showPasswordChanger && (
+          <Link href="/profile/password">
+            <Button
+              sx={{
+                width: "130px",
+                height: "60px",
+                margin: "auto",
+                marginTop: "30px",
+              }}
+              variant="outlined"
+            >
+              Change Password
+            </Button>
+          </Link>
+        )}
+      </React.Fragment>
     </CardForm>
   );
 };
