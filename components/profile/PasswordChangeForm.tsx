@@ -1,7 +1,9 @@
 import { Divider, TextField, Typography, Button } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CardForm from "../layout/main/CardForm";
+import { useRouter } from "next/router";
 
 const PasswordChangeForm = () => {
   const [oldPassword, setOldPassword] = useState<string>("");
@@ -10,6 +12,9 @@ const PasswordChangeForm = () => {
     useState<string | null>(null);
   const [newPasswordInputError, setNewPasswordInputError] =
     useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -19,7 +24,7 @@ const PasswordChangeForm = () => {
 
       if (newPassword !== "" && newPassword.length < 10) {
         setNewPasswordInputError("최소 열글자를 입력해주세요!");
-      } else if (newPassword === oldPassword) {
+      } else if (newPassword !== "" && newPassword === oldPassword) {
         setNewPasswordInputError(
           "이전 비밀번호와 다른 비밀번호를 사용해주세요!!"
         );
@@ -29,10 +34,29 @@ const PasswordChangeForm = () => {
     return () => clearTimeout(timer);
   }, [oldPassword, newPassword]);
 
+  useEffect(() => {
+    console.log(loading);
+  }, [loading]);
+
   const changePasswordHandler = () => {
+    if (!!oldPasswordInputError || !!newPasswordInputError) {
+      return;
+    }
+    setLoading(true);
     axios
       .patch("/api/user/password", { oldPassword, newPassword })
-      .then((res) => console.log(res));
+      .then((res) => {
+        if (res.statusText === "OK") {
+          router.back();
+        } else {
+          setOldPasswordInputError("비밀번호를 다시 확인해주세요");
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        setOldPasswordInputError("이전 비밀번호를 다시 확인해주세요");
+        setLoading(false);
+      });
   };
 
   return (
@@ -61,18 +85,38 @@ const PasswordChangeForm = () => {
         error={!!newPasswordInputError}
         onChange={(event) => setNewPassword(event.target.value)}
       />
-      <Button
-        sx={{
-          width: "100px",
-          height: "50px",
-          margin: "auto",
-          marginTop: "30px",
-        }}
-        variant="outlined"
-        onClick={changePasswordHandler}
-      >
-        변경하기
-      </Button>
+      <React.Fragment>
+        {loading && (
+          <LoadingButton
+            sx={{
+              width: "100px",
+              height: "50px",
+              margin: "auto",
+              marginTop: "30px",
+            }}
+            loading
+            variant="outlined"
+          >
+            변경하기
+          </LoadingButton>
+        )}
+      </React.Fragment>
+      <React.Fragment>
+        {!loading && (
+          <Button
+            sx={{
+              width: "100px",
+              height: "50px",
+              margin: "auto",
+              marginTop: "30px",
+            }}
+            variant="outlined"
+            onClick={changePasswordHandler}
+          >
+            변경하기
+          </Button>
+        )}
+      </React.Fragment>
     </CardForm>
   );
 };
