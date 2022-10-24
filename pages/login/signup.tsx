@@ -1,3 +1,4 @@
+import { GetStaticProps } from "next";
 import React from "react";
 import SignUpForm from "../../components/login/SignUpForm";
 
@@ -6,3 +7,9 @@ const signup = () => {
 };
 
 export default signup;
+
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {},
+  };
+};

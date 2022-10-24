@@ -1,6 +1,8 @@
-import ContactForm from "../../components/contact/ContactForm";
-import { Box } from "@mui/material";
 import Head from "next/head";
+import { GetStaticProps } from "next";
+
+import { Box } from "@mui/material";
+import ContactForm from "../../components/contact/ContactForm";
 
 const ContactPage = () => {
   return (
@@ -16,3 +18,10 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
+
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {},
+    revalidate: 600,
+  };
+};

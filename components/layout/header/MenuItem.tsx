@@ -1,9 +1,13 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import styled from "@emotion/styled";
 import { MenuItem as MuiMenuItem } from "@mui/material";
 import Link from "next/link";
 
-export type MenuItemProps = { name: string; linkName?: string };
+export type MenuItemProps = {
+  name: string;
+  linkName?: string;
+  onClick?: () => void;
+};
 
 const MenuItemWrap = styled.div`
   width: 100px;
@@ -12,9 +16,7 @@ const MenuItemWrap = styled.div`
   font-size: 24px;
 `;
 
-const MenuItem: React.FC<MenuItemProps> = (props) => {
-  const { name, linkName } = props;
-
+const MenuItem: React.FC<MenuItemProps> = ({ name, linkName, onClick }) => {
   let hrefLink: string;
 
   if (linkName) {
@@ -25,17 +27,31 @@ const MenuItem: React.FC<MenuItemProps> = (props) => {
 
   return (
     <MenuItemWrap>
-      <Link href={`/${hrefLink}`}>
+      {!onClick && (
+        <Link href={`/${hrefLink}`}>
+          <MuiMenuItem
+            sx={{
+              justifyContent: "center",
+              height: "100%",
+              width: "100%",
+            }}
+          >
+            {name}
+          </MuiMenuItem>
+        </Link>
+      )}
+      {onClick && (
         <MuiMenuItem
           sx={{
             justifyContent: "center",
             height: "100%",
             width: "100%",
           }}
+          onClick={onClick}
         >
           {name}
         </MuiMenuItem>
-      </Link>
+      )}
     </MenuItemWrap>
   );
 };

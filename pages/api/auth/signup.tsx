@@ -8,14 +8,14 @@ type NewUserType = {
   name: string;
   email: string;
   password: string;
+  image: string | null;
 };
 
 type UserType = {
   _id: string;
-  type: "user" | "admin";
   name: string;
   email: string;
-  message: string;
+  image: string | null;
 };
 
 const handler: NextApiHandler = async (
@@ -70,18 +70,36 @@ const handler: NextApiHandler = async (
       name: name,
       email: email,
       password: hashedPassword,
-      type: "user",
+      image: null,
     });
 
-    data.id = result.insertedId;
-
-    res.status(201).json({ message: "Created user!" });
     client.close();
   } catch (error) {
     client.close();
     res.status(500).json({ message: "Signup failed!" });
     return;
   }
+  try {
+    data.id = result.insertedId;
+    client = await connectDatabase();
+    const newDb = client.db(process.env.mongodb_database);
+
+    const accountCollection = newDb.collection("accounts");
+
+    await accountCollection.insertOne({
+      provider: "moderntoujours",
+      type: "auth",
+      userId: data.id,
+      userType: "user",
+    });
+  } catch (error) {
+    client.close();
+    res.status(500).json({ message: "Signup failed2" });
+    return;
+  }
+
+  res.status(201).json({ message: "Created user!" });
+  client.close();
 };
 
 export default handler;

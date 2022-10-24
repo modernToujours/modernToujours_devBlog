@@ -16,6 +16,8 @@ import {
   TextField,
   Box,
 } from "@mui/material";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import GoogleIcon from "@mui/icons-material/Google";
 import CardForm from "../layout/main/CardForm";
 
 const LoginForm: React.FC = () => {
@@ -123,6 +125,38 @@ const LoginForm: React.FC = () => {
             <Typography sx={{ fontSize: "14px" }}>SignUp</Typography>
           </Button>
         </Link>
+      </Box>
+      <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" } }}>
+        <Button
+          sx={{
+            width: "250px",
+            height: "60px",
+            margin: "auto",
+            marginBottom: "15px",
+          }}
+          variant="outlined"
+          onClick={() => signIn("github")}
+        >
+          <GitHubIcon />
+          <Typography sx={{ fontSize: "14px", marginLeft: "5px" }}>
+            Github
+          </Typography>
+        </Button>
+        <Button
+          sx={{
+            width: "250px",
+            height: "60px",
+            margin: "auto",
+            marginBottom: "15px",
+          }}
+          variant="outlined"
+          onClick={() => signIn("google")}
+        >
+          <GoogleIcon />
+          <Typography sx={{ fontSize: "14px", marginLeft: "5px" }}>
+            Google
+          </Typography>
+        </Button>
       </Box>
       <Snackbar open={openSuccess} autoHideDuration={3000}>
         <Alert
