@@ -6,6 +6,7 @@ import ListIcon from "@mui/icons-material/List";
 import { Button } from "@mui/material";
 import DarkModeToggler from "./DarkModeToggler";
 import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const MenuWrap = styled.div`
   display: flex;
@@ -13,6 +14,7 @@ const MenuWrap = styled.div`
 
 const Menu: React.FC = () => {
   const { data, status } = useSession();
+  const router = useRouter();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -53,6 +55,7 @@ const Menu: React.FC = () => {
             linkName="logout"
             onClick={() => {
               signOut({ redirect: false });
+              router.push("/");
             }}
           />
         )}

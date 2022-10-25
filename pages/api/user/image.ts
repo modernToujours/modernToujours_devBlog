@@ -17,7 +17,6 @@ const handler: NextApiHandler = async (
     return;
   }
 
-  console.log(session);
   const userEmail = session?.user?.email;
 
   const newImageUrl = req.body.imageUrl;
