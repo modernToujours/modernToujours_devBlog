@@ -1,11 +1,12 @@
-import { GetStaticProps } from "next";
 import React from "react";
+import { GetStaticProps } from "next";
+import AllPosts from "../../components/posts/AllPosts";
 
-const Menu2 = () => {
-  return <div>Menu2</div>;
+const AllPostsPage = () => {
+  return <AllPosts />;
 };
 
-export default Menu2;
+export default AllPostsPage;
 
 export const getStaticProps: GetStaticProps = async () => {
   return {
