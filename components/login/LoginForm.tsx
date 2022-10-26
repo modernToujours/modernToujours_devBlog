@@ -16,11 +16,13 @@ import {
   TextField,
   Box,
 } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 import CardForm from "../layout/main/CardForm";
 
 const LoginForm: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [openSuccess, setOpenSuccess] = useState<boolean>(false);
   const [openFail, setOpenFail] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
@@ -57,6 +59,7 @@ const LoginForm: React.FC = () => {
   };
 
   const onLogin = async () => {
+    setLoading(true);
     const result = await signIn("credentials", {
       redirect: false,
       email: email,
@@ -67,7 +70,7 @@ const LoginForm: React.FC = () => {
       setOpenSuccess(true);
       setTimeout(() => {
         router.push("/");
-      }, 500);
+      }, 300);
     } else {
       setOpenFail(true);
     }
@@ -100,18 +103,38 @@ const LoginForm: React.FC = () => {
         onChange={inputPasswordHandler}
       />
       <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" } }}>
-        <Button
-          sx={{
-            width: "250px",
-            height: "60px",
-            margin: "auto",
-            marginBottom: "15px",
-          }}
-          variant="outlined"
-          onClick={onLogin}
-        >
-          <Typography sx={{ fontSize: "14px" }}>Login</Typography>
-        </Button>
+        <React.Fragment>
+          {loading && (
+            <LoadingButton
+              sx={{
+                width: "250px",
+                height: "60px",
+                margin: "auto",
+                marginBottom: "15px",
+              }}
+              loading
+              variant="outlined"
+            >
+              Login
+            </LoadingButton>
+          )}
+        </React.Fragment>
+        <React.Fragment>
+          {!loading && (
+            <Button
+              sx={{
+                width: "250px",
+                height: "60px",
+                margin: "auto",
+                marginBottom: "15px",
+              }}
+              variant="outlined"
+              onClick={onLogin}
+            >
+              <Typography sx={{ fontSize: "14px" }}>Login</Typography>
+            </Button>
+          )}
+        </React.Fragment>
         <Link href="/login/signup">
           <Button
             sx={{
