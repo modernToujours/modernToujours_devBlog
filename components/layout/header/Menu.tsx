@@ -25,11 +25,6 @@ const Menu: React.FC = () => {
     setAnchorEl(null);
   };
 
-  useEffect(() => {
-    console.log(data);
-    console.log(status);
-  }, [data, status]);
-
   return (
     <MenuWrap>
       <DarkModeToggler />

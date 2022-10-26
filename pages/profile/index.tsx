@@ -13,7 +13,6 @@ const ProfilePage = ({ session }: { session: Session | null }) => {
   useEffect(() => {
     if (!userSession) {
       getSession().then((session) => {
-        console.log("ses: ", session);
         if (!session) {
           router.push("/login");
         } else {
