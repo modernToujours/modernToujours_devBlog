@@ -44,7 +44,7 @@ const Menu: React.FC = () => {
         <ListIcon fontSize="large" sx={{ color: "text.primary" }} />
       </Button>
       <MuiMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        <MenuItem name="menu1" linkName="menu1" />
+        <MenuItem name="Posts" linkName="posts" />
         {!data && status !== "loading" && (
           <MenuItem name="Login" linkName="login" />
         )}
