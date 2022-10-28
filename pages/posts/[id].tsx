@@ -16,12 +16,17 @@ const PostPage: NextPage<PostPageProps> = (props) => {
       const id = router.query.id as string;
       setPostId(id);
     }
-    axios
-      .get("/api/posts?id=" + postId)
-      .then((res) => res.data.posts[0])
-      .then((res) => {
-        setPost(res);
-      });
+    if (postId) {
+      axios
+        .get("/api/posts?id=" + postId)
+        .then((res) => {
+          console.log(res);
+          return res.data.post[0];
+        })
+        .then((res) => {
+          setPost(res);
+        });
+    }
   }, [postId, router.query.id]);
   if (!post) {
     return <div>Loading...</div>;

@@ -23,8 +23,6 @@ const PostContent: React.FC<postType> = (props) => {
 
   useEffect(() => {
     axios.get(newUrl).then((res) => {
-      console.log(res);
-      console.log(res.data);
       setMarkdown(res.data);
     });
   });
