@@ -33,7 +33,9 @@ const handler: NextApiHandler = async (
 
   const account = await accountsCollection.findOne({ userId: user._id });
 
-  res.status(200).json({ provider: account?.provider });
+  res
+    .status(200)
+    .json({ provider: account?.provider, userType: account?.userType });
 };
 
 export default handler;
