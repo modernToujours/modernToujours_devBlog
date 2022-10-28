@@ -1,4 +1,3 @@
-import { PanoramaFishEye } from "@mui/icons-material";
 import axios from "axios";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
@@ -20,7 +19,6 @@ const PostPage: NextPage<PostPageProps> = (props) => {
       axios
         .get("/api/posts?id=" + postId)
         .then((res) => {
-          console.log(res);
           return res.data.post[0];
         })
         .then((res) => {
@@ -36,51 +34,48 @@ const PostPage: NextPage<PostPageProps> = (props) => {
 
 export default PostPage;
 
-// export const getStaticProps: GetStaticProps = (context) => {
-//   console.dir(context);
-//   const { params } = context as {
-//     params: { id: string };
-//   };
-//   console.dir(params);
+export const getStaticProps: GetStaticProps = (context) => {
+  const { params } = context as {
+    params: { id: string };
+  };
 
-//   const { id } = params;
+  const { id } = params;
 
-//   console.log("id : " + id);
+  console.log("id : " + id);
 
-//   return {
-//     props: {
-//       id,
-//     },
-//     revalidate: 6000,
-//   };
-// };
+  return {
+    props: {
+      id,
+    },
+    revalidate: 6000,
+  };
+};
 
-// export const getStaticPaths: GetStaticPaths = async () => {
-//   const path: {
-//     params: {
-//       id: string;
-//     };
-//   }[] = [];
+export const getStaticPaths: GetStaticPaths = async () => {
+  const path: {
+    params: {
+      id: string;
+    };
+  }[] = [];
 
-//   await axios
-//     .get("http://localhost:3000/api/posts")
-//     .then((res) => {
-//       console.log(res);
-//       return res.data.posts;
-//     })
-//     .then((posts) => {
-//       posts.forEach((post: any) => {
-//         path.push({
-//           params: {
-//             id: post._id.toString(),
-//           },
-//         });
-//       });
-//     })
-//     .catch((err) => console.log(err));
+  await axios
+    .get(`https://www.moderntoujours.dev/api/posts`)
+    .then((res) => {
+      return res.data.posts;
+    })
+    .then((posts) => {
+      posts.forEach((post: any) => {
+        path.push({
+          params: {
+            id: post._id.toString(),
+          },
+        });
+      });
+    })
+    .catch((err) => console.log(err));
 
-//   return {
-//     paths: path,
-//     fallback: false,
-//   };
-// };
+  return {
+    paths: path,
+    fallback: false,
+  };
+};

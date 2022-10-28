@@ -6,8 +6,8 @@ import { ObjectId } from "mongodb";
 
 type post = { _id: ObjectId; title: string; image: string; post: string };
 
-const AllPostsPage: NextPage = () => {
-  const [posts, setPosts] = useState<post[]>([]);
+const AllPostsPage: NextPage<{ posts: post[] }> = (props) => {
+  const [posts, setPosts] = useState<post[]>(props?.posts);
 
   useEffect(() => {
     axios.get("/api/posts").then((res) => setPosts(res.data.posts));
@@ -18,11 +18,10 @@ const AllPostsPage: NextPage = () => {
 export default AllPostsPage;
 
 export const getStaticProps: GetStaticProps = async () => {
-  // const res = await axios.get("/api/posts");
-  // const posts = res.data.posts;
+  const res = await axios.get(`https://www.moderntoujours.dev/api/posts`);
+  const posts = res.data.posts;
   return {
-    // props: { posts: posts },
-    props: {},
+    props: { posts: posts },
     revalidate: 600,
   };
 };
