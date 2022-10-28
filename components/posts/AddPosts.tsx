@@ -13,10 +13,10 @@ const FormEditor = () => {
   const { uploadToS3 } = useS3Upload();
 
   const saveHandler = async () => {
-    const md = editorRef?.current!.getInstance().getHTML();
+    const md = editorRef?.current!.getInstance().getMarkdown();
 
-    const file = new File([md], `${title}.html`, {
-      type: "text/html;charset=utf-8;",
+    const file = new File([md], `${title}.md`, {
+      type: "text/markup;charset=utf-8;",
     });
 
     const { url } = await uploadToS3(file);
@@ -39,7 +39,7 @@ const FormEditor = () => {
           callback(newUrl, "imageURL");
         });
     }
-  }, [editorRef]);
+  }, [editorRef, uploadToS3]);
 
   return (
     <Box>
