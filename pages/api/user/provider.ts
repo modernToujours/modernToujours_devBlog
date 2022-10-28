@@ -36,6 +36,8 @@ const handler: NextApiHandler = async (
   res
     .status(200)
     .json({ provider: account?.provider, userType: account?.userType });
+
+  clientForAccount.close();
 };
 
 export default handler;

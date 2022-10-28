@@ -4,11 +4,14 @@ import { useState, useEffect, useRef } from "react";
 import { useS3Upload } from "next-s3-upload";
 import { Box, Button, TextField } from "@mui/material";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const FormEditor = () => {
   const editorRef = useRef<Editor>(null);
   const [title, setTitle] = useState("");
   const [imgUrl, setImgUrl] = useState("");
+
+  const router = useRouter();
 
   const { uploadToS3 } = useS3Upload();
 
@@ -20,11 +23,10 @@ const FormEditor = () => {
     });
 
     const { url } = await uploadToS3(file);
-    const newUrl = url.replace("https://forus-s3.", "https://");
 
     axios
-      .post("/api/posts/add", { title: title, image: imgUrl, post: newUrl })
-      .then((res) => console.log(res));
+      .post("/api/posts/add", { title: title, image: imgUrl, post: url })
+      .then((res) => router.push("/posts"));
   };
 
   useEffect(() => {
@@ -35,8 +37,7 @@ const FormEditor = () => {
         .getInstance()
         .addHook("addImageBlobHook", async (blob, callback) => {
           const { url } = await uploadToS3(blob);
-          const newUrl = url.replace("https://forus-s3.", "https://");
-          callback(newUrl, "imageURL");
+          callback(url, "imageURL");
         });
     }
   }, [editorRef, uploadToS3]);
