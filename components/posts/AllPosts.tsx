@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid, Paper, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import axios from "axios";
 import Link from "next/link";
+import { ObjectId } from "mongodb";
+import PostItem from "./PostItem";
 
-const AllPosts: React.FC = () => {
+type post = { _id: ObjectId; title: string; image: string; post: string };
+
+type posts = post[];
+
+const AllPosts: React.FC<{ posts: posts }> = ({ posts }) => {
   const [userSession, setUserSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
@@ -56,14 +62,8 @@ const AllPosts: React.FC = () => {
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
-        {Array.from(Array(6)).map((_, index) => (
-          <Grid item xs={4} sm={4} md={4} key={index}>
-            <Paper
-              sx={{ padding: "2px", textAlign: "center", margin: "0 10px" }}
-            >
-              posts
-            </Paper>
-          </Grid>
+        {posts.map((post) => (
+          <PostItem key={post._id.toString()} post={post} />
         ))}
       </Grid>
     </Box>
