@@ -20,10 +20,9 @@ const FormEditor = () => {
     });
 
     const { url } = await uploadToS3(file);
-    const newUrl = url.replace("https://forus-s3.", "https://");
 
     axios
-      .post("/api/posts/add", { title: title, image: imgUrl, post: newUrl })
+      .post("/api/posts/add", { title: title, image: imgUrl, post: url })
       .then((res) => console.log(res));
   };
 
@@ -35,8 +34,7 @@ const FormEditor = () => {
         .getInstance()
         .addHook("addImageBlobHook", async (blob, callback) => {
           const { url } = await uploadToS3(blob);
-          const newUrl = url.replace("https://forus-s3.", "https://");
-          callback(newUrl, "imageURL");
+          callback(url, "imageURL");
         });
     }
   }, [editorRef, uploadToS3]);
