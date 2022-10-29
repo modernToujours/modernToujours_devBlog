@@ -19,7 +19,7 @@ const FormEditor = () => {
     const md = editorRef?.current!.getInstance().getMarkdown();
 
     const file = new File([md], `${title}.md`, {
-      type: "text/markup;charset=utf-8;",
+      type: "text/markup",
     });
 
     const { url } = await uploadToS3(file);

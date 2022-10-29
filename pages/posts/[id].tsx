@@ -59,7 +59,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }[] = [];
 
   await axios
-    .get(`https://www.moderntoujours.dev/api/posts`)
+    .get(encodeURI(`https://www.moderntoujours.dev/api/posts`))
     .then((res) => {
       return res.data.posts;
     })
