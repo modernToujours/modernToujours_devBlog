@@ -2,7 +2,7 @@ import axios from "axios";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import PostContent from "../../components/posts/PostContent";
+import PostContent from "../../../components/posts/PostContent";
 
 type PostPageProps = { id: string };
 
@@ -10,6 +10,7 @@ const PostPage: NextPage<PostPageProps> = (props) => {
   const [postId, setPostId] = useState<string | null>(props?.id);
   const [post, setPost] = useState(null);
   const router = useRouter();
+
   useEffect(() => {
     if (!postId) {
       const id = router.query.id as string;
