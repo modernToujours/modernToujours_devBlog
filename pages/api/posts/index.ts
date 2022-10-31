@@ -20,13 +20,17 @@ const handler: NextApiHandler = async (req, res) => {
 
     const postsCollection = db.collection("posts");
 
-    if (req.body.id) {
-      const id = req.body.id;
-      const posts = await postsCollection.find({ _id: new ObjectId(id) });
-      res.status(200).json({ post: posts });
+    if (req.query.id) {
+      const id = req.query.id as string;
+      const posts = await postsCollection
+        .find({
+          _id: new ObjectId(id),
+        })
+        .toArray();
+      res.status(200).json({ post: posts.reverse() });
     } else {
       const posts = await postsCollection.find().toArray();
-      res.status(200).json({ posts: posts });
+      res.status(200).json({ posts: posts.reverse() });
     }
   } catch (error) {
     client.close();

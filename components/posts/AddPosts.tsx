@@ -7,7 +7,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 
 const FormEditor = () => {
-  const editorRef = useRef<Editor>(null);
+  const editorRef = useRef<Editor | null>(null);
   const [title, setTitle] = useState("");
   const [imgUrl, setImgUrl] = useState("");
 
@@ -19,7 +19,7 @@ const FormEditor = () => {
     const md = editorRef?.current!.getInstance().getMarkdown();
 
     const file = new File([md], `${title}.md`, {
-      type: "text/markup;charset=utf-8;",
+      type: "text/markup",
     });
 
     const { url } = await uploadToS3(file);
@@ -56,7 +56,7 @@ const FormEditor = () => {
       />
       <Editor
         height="600px"
-        initialEditType="wysiwyg"
+        initialEditType="markdown"
         previewStyle="tab"
         ref={editorRef}
         useCommandShortcut={true}
