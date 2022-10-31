@@ -7,7 +7,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 
 const FormEditor = () => {
-  const editorRef = useRef<Editor>(null);
+  const editorRef = useRef<Editor | null>(null);
   const [title, setTitle] = useState("");
   const [imgUrl, setImgUrl] = useState("");
 
@@ -56,7 +56,7 @@ const FormEditor = () => {
       />
       <Editor
         height="600px"
-        initialEditType="wysiwyg"
+        initialEditType="markdown"
         previewStyle="tab"
         ref={editorRef}
         useCommandShortcut={true}
