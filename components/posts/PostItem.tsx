@@ -19,13 +19,21 @@ const PostItem: React.FC<{ post: post }> = ({ post }) => {
             borderRadius: "10px",
           }}
         >
-          <CardMedia sx={{ width: "100%", height: "300px" }}>
+          <CardMedia
+            sx={{
+              display: "block",
+              width: "100%",
+              height: "300px",
+              padding: "5px",
+              borderRadius: "10px",
+            }}
+          >
             <Image
               src={post.image}
               alt={post.title}
               width="300"
               height="300"
-              objectFit="cover"
+              objectFit="contain"
             />
           </CardMedia>
 

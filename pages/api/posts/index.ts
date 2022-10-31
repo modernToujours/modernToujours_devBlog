@@ -27,10 +27,10 @@ const handler: NextApiHandler = async (req, res) => {
           _id: new ObjectId(id),
         })
         .toArray();
-      res.status(200).json({ post: posts });
+      res.status(200).json({ post: posts.reverse() });
     } else {
       const posts = await postsCollection.find().toArray();
-      res.status(200).json({ posts: posts });
+      res.status(200).json({ posts: posts.reverse() });
     }
   } catch (error) {
     client.close();

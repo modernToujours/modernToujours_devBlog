@@ -1,7 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 
-const DynamicEditor = dynamic(
+const AddPost = dynamic(
   () =>
     import("../../components/posts/AddPosts").then((module) => module.default),
   {
@@ -9,12 +9,12 @@ const DynamicEditor = dynamic(
   }
 );
 
-const AddPost = () => {
+const AddPage = () => {
   return (
     <div>
-      <DynamicEditor />
+      <AddPost />
     </div>
   );
 };
 
-export default AddPost;
+export default AddPage;
