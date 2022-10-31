@@ -24,7 +24,6 @@ const AllPosts: React.FC<{ posts: posts }> = ({ posts }) => {
           const { email } = session.user!;
 
           axios.get(`/api/user/provider?email=${email}`).then((res) => {
-            console.log(res.data.userType);
             if (res.data.userType === "admin") {
               setIsAdmin(true);
             }
