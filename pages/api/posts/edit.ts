@@ -32,14 +32,12 @@ const handler: NextApiHandler = async (req, res) => {
         },
       }
     );
-    console.log(result);
   } catch (error) {
     client.close();
     res.status(500).json({ message: "Update posts failed!" });
     return;
   }
-  console.log(result);
-  res.status(201).json({ message: "Success!" });
+  res.status(201).json({ result, message: "Success!" });
   client.close();
 };
 
