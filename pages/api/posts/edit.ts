@@ -9,8 +9,6 @@ const handler: NextApiHandler = async (req, res) => {
 
   const { _id, title, image, post } = req.body;
 
-  const newPost = { title, image, post };
-
   let client: MongoClient;
   let result: UpdateResult;
 
@@ -25,7 +23,7 @@ const handler: NextApiHandler = async (req, res) => {
     const collection = db.collection("posts");
 
     result = await collection.updateOne(
-      { _id },
+      { _id: _id },
       {
         $set: {
           title: title,
@@ -34,6 +32,7 @@ const handler: NextApiHandler = async (req, res) => {
         },
       }
     );
+    console.log(result);
   } catch (error) {
     client.close();
     res.status(500).json({ message: "Update posts failed!" });
