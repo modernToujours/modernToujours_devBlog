@@ -1,4 +1,4 @@
-import { InsertOneResult, MongoClient, UpdateResult } from "mongodb";
+import { InsertOneResult, MongoClient, ObjectId, UpdateResult } from "mongodb";
 import { NextApiHandler } from "next";
 import { connectDatabase } from "../../../lib/connect";
 
@@ -23,7 +23,7 @@ const handler: NextApiHandler = async (req, res) => {
     const collection = db.collection("posts");
 
     result = await collection.updateOne(
-      { _id: _id },
+      { _id: new ObjectId(_id) },
       {
         $set: {
           title: title,
