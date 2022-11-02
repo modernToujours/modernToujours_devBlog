@@ -56,8 +56,15 @@ const EditPost: React.FC<{ post: Post }> = ({ post }) => {
     const { url } = await uploadToS3(file);
 
     axios
-      .post("/api/posts/edit", { title: title, image: imgUrl, post: url })
-      .then((res) => router.push("/posts"));
+      .post(`/api/posts/${post._id}/edit`, {
+        title: title,
+        image: imgUrl,
+        post: url,
+      })
+      .then((res) => {
+        console.log(res);
+        router.push("/posts");
+      });
   };
 
   return (
