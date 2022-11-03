@@ -75,7 +75,15 @@ const PostContent: React.FC<postType> = (props) => {
             </Box>
             <Divider />
             <Box sx={{ padding: "20px" }}>
-              <ReactMarkdown>{markdown}</ReactMarkdown>
+              <ReactMarkdown
+                components={{
+                  img: ({ node, ...props }) => (
+                    <img style={{ maxWidth: "80%" }} {...props} alt="" />
+                  ),
+                }}
+              >
+                {markdown}
+              </ReactMarkdown>
             </Box>
           </Box>
         )}
