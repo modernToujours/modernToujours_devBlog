@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { Box, Button, Divider, Paper, Typography } from "@mui/material";
-import { Session } from "inspector";
 import { getSession } from "next-auth/react";
-import { SettingsSystemDaydreamOutlined } from "@mui/icons-material";
-import { display } from "@mui/system";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { queries } from "@storybook/testing-library";
+import Image from "next/image";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { numberTypeAnnotation } from "@babel/types";
+import { isNumber } from "util";
 
 type postType = {
   post: {
@@ -25,6 +26,8 @@ const PostContent: React.FC<postType> = (props) => {
   const router = useRouter();
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [markdown, setMarkdown] = useState("");
+  const [likeCount, setLikeCount] = useState<number | undefined>();
+  const [isLiked, setIsLiked] = useState<boolean>(false);
   const newUrl = post!.replace(
     "https://forus-s3.s3.ap-northeast-2.amazonaws.com/next-s3-uploads/",
     "/s3/"
@@ -33,6 +36,11 @@ const PostContent: React.FC<postType> = (props) => {
   useEffect(() => {
     axios.get(encodeURI(newUrl)).then((res) => {
       setMarkdown(res.data);
+    });
+    axios.get(`/api/posts/${router.query.id}/like`).then((res) => {
+      const { likes, isLiked } = res.data;
+      setLikeCount(likes);
+      setIsLiked(isLiked);
     });
   }, [newUrl]);
 
@@ -53,6 +61,9 @@ const PostContent: React.FC<postType> = (props) => {
     });
   }, []);
 
+  const onLikeHandler = () => {};
+  const onDislikeHandler = () => {};
+
   return (
     <React.Fragment>
       <Paper elevation={3} sx={{ margin: "50px 20px", borderRadius: "10px" }}>
@@ -63,14 +74,16 @@ const PostContent: React.FC<postType> = (props) => {
             >
               <Typography variant="h2">{title}</Typography>
               <React.Fragment>
-                <Link
-                  href={{
-                    pathname: `${router.pathname}/edit`,
-                    query: { ...router.query },
-                  }}
-                >
-                  <Button>Edit</Button>
-                </Link>
+                {isAdmin && (
+                  <Link
+                    href={{
+                      pathname: `${router.pathname}/edit`,
+                      query: { ...router.query },
+                    }}
+                  >
+                    <Button>Edit</Button>
+                  </Link>
+                )}
               </React.Fragment>
             </Box>
             <Divider />
@@ -78,12 +91,26 @@ const PostContent: React.FC<postType> = (props) => {
               <ReactMarkdown
                 components={{
                   img: ({ node, ...props }) => (
-                    <img style={{ maxWidth: "80%" }} {...props} alt="" />
+                    <Image
+                      width="500"
+                      height="500"
+                      layout="intrinsic"
+                      src={props.src!}
+                      alt=""
+                    />
                   ),
                 }}
               >
                 {markdown}
               </ReactMarkdown>
+              <Divider />
+              {typeof likeCount === "number" && (
+                <Box sx={{ margin: "20px auto" }}>
+                  {!isLiked && <FavoriteBorderIcon sx={{ fontSize: 50 }} />}
+                  {isLiked && <FavoriteIcon sx={{ fontSize: 50 }} />}
+                  <Typography>{likeCount} likes</Typography>
+                </Box>
+              )}
             </Box>
           </Box>
         )}

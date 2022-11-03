@@ -1,4 +1,4 @@
-import { InsertOneResult, MongoClient, ObjectId, UpdateResult } from "mongodb";
+import { MongoClient, ObjectId, UpdateResult } from "mongodb";
 import { NextApiHandler } from "next";
 import { connectDatabase } from "../../../lib/connect";
 
