@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import Header from "../components/layout/header/Header";
 import ColorModeContextProvider from "../context/ColorModeContextProvider";
 import { Box } from "@mui/material";
+import { Analytics } from "@vercel/analytics/react";
 import "../styles/globals.css";
 
 const MyApp = ({ Component, pageProps }: AppProps<{ session?: Session }>) => {
@@ -32,6 +33,7 @@ const MyApp = ({ Component, pageProps }: AppProps<{ session?: Session }>) => {
             }}
           >
             <Component {...pageProps} />
+            <Analytics />
           </Box>
         </Box>
       </SessionProvider>
