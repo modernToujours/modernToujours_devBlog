@@ -56,7 +56,7 @@ const EditPost: React.FC<{ post: Post }> = ({ post }) => {
     const { url } = await uploadToS3(file);
 
     axios
-      .post(`/api/posts/edit`, {
+      .post("/api/posts/edit", {
         _id: post._id,
         title: title,
         image: imgUrl,
@@ -66,6 +66,11 @@ const EditPost: React.FC<{ post: Post }> = ({ post }) => {
         console.log(res);
         router.push("/posts");
       });
+  };
+
+  const deleteHandler = async () => {
+    axios.delete(`/api/posts/${post._id}`);
+    router.push("/posts");
   };
 
   return (
@@ -90,6 +95,7 @@ const EditPost: React.FC<{ post: Post }> = ({ post }) => {
         usageStatistics={false}
       />
       <Button onClick={editHandler}>수정하기</Button>
+      <Button onClick={deleteHandler}>삭제하기</Button>
     </Box>
   );
 };
