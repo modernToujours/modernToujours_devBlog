@@ -1,4 +1,4 @@
-import { InsertOneResult, MongoClient, UpdateResult } from "mongodb";
+import { MongoClient, ObjectId, UpdateResult } from "mongodb";
 import { NextApiHandler } from "next";
 import { connectDatabase } from "../../../lib/connect";
 
@@ -8,8 +8,6 @@ const handler: NextApiHandler = async (req, res) => {
   }
 
   const { _id, title, image, post } = req.body;
-
-  const newPost = { title, image, post };
 
   let client: MongoClient;
   let result: UpdateResult;
@@ -25,7 +23,7 @@ const handler: NextApiHandler = async (req, res) => {
     const collection = db.collection("posts");
 
     result = await collection.updateOne(
-      { _id },
+      { _id: new ObjectId(_id) },
       {
         $set: {
           title: title,
@@ -39,8 +37,7 @@ const handler: NextApiHandler = async (req, res) => {
     res.status(500).json({ message: "Update posts failed!" });
     return;
   }
-  console.log(result);
-  res.status(201).json({ message: "Success!" });
+  res.status(201).json({ result, message: "Success!" });
   client.close();
 };
 
