@@ -1,13 +1,15 @@
+import { Box } from "@mui/material";
 import axios from "axios";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import Comments from "../../../components/posts/comments/Comments";
 import PostContent from "../../../components/posts/PostContent";
 
 type PostPageProps = { id: string };
 
 const PostPage: NextPage<PostPageProps> = (props) => {
-  const [postId, setPostId] = useState<string | null>(props?.id);
+  const [postId, setPostId] = useState<string>(props?.id);
   const [post, setPost] = useState(null);
   const router = useRouter();
 
@@ -30,7 +32,14 @@ const PostPage: NextPage<PostPageProps> = (props) => {
   if (!post) {
     return <div>Loading...</div>;
   }
-  return post && <PostContent post={post} />;
+  return (
+    post && (
+      <Box>
+        <PostContent post={post} />
+        <Comments postId={postId} />
+      </Box>
+    )
+  );
 };
 
 export default PostPage;

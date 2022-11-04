@@ -80,11 +80,11 @@ const PostContent: React.FC<postType> = (props) => {
   };
 
   return (
-    <React.Fragment>
+    <Box>
       <Paper
         elevation={3}
         sx={{
-          margin: "50px 20px",
+          margin: "50px auto",
           borderRadius: "10px",
           maxWidth: "90%",
           textAlign: "left",
@@ -164,7 +164,7 @@ const PostContent: React.FC<postType> = (props) => {
           </Box>
         )}
       </Paper>
-    </React.Fragment>
+    </Box>
   );
 };
 
