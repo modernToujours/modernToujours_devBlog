@@ -81,7 +81,15 @@ const PostContent: React.FC<postType> = (props) => {
 
   return (
     <React.Fragment>
-      <Paper elevation={3} sx={{ margin: "50px 20px", borderRadius: "10px" }}>
+      <Paper
+        elevation={3}
+        sx={{
+          margin: "50px 20px",
+          borderRadius: "10px",
+          maxWidth: "90%",
+          textAlign: "left",
+        }}
+      >
         {markdown && (
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Box
@@ -106,34 +114,52 @@ const PostContent: React.FC<postType> = (props) => {
               <ReactMarkdown
                 components={{
                   img: ({ node, ...props }) => (
-                    <Image
-                      width="500"
-                      height="500"
-                      layout="intrinsic"
-                      src={props.src!}
-                      alt=""
-                    />
+                    <Box
+                      sx={{
+                        width: { xs: "250px", sm: "500px" },
+                        height: { xs: "250px", sm: "500px" },
+                        margin: "3px auto",
+                      }}
+                    >
+                      <Image
+                        width="500"
+                        height="500"
+                        layout="intrinsic"
+                        src={props.src!}
+                        alt=""
+                      />
+                    </Box>
+                  ),
+                  code: ({ node, ...props }) => (
+                    <Box sx={{ overflow: "scroll" }}>
+                      <code>{props.children}</code>
+                    </Box>
                   ),
                 }}
               >
                 {markdown}
               </ReactMarkdown>
               <Divider />
-              {typeof likeCount === "number" && (
-                <Box sx={{ margin: "20px auto" }}>
-                  {!isLiked && (
-                    <IconButton onClick={onLikeHandler}>
-                      <FavoriteBorderIcon sx={{ fontSize: 50 }} />
-                    </IconButton>
-                  )}
-                  {isLiked && (
-                    <IconButton onClick={onDislikeHandler}>
-                      <FavoriteIcon sx={{ fontSize: 50 }} />
-                    </IconButton>
-                  )}
-                  <Typography>{likeCount} likes</Typography>
-                </Box>
-              )}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  textAlign: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {!isLiked && (
+                  <IconButton onClick={onLikeHandler}>
+                    <FavoriteBorderIcon sx={{ fontSize: 50 }} />
+                  </IconButton>
+                )}
+                {isLiked && (
+                  <IconButton onClick={onDislikeHandler}>
+                    <FavoriteIcon sx={{ fontSize: 50 }} />
+                  </IconButton>
+                )}
+                <Typography>{likeCount} likes</Typography>
+              </Box>
             </Box>
           </Box>
         )}
