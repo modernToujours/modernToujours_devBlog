@@ -17,7 +17,8 @@ const handler: NextApiHandler = async (req, res) => {
     const client = await connectDatabase();
     const db = client.db(process.env.mongodb_database);
     const collection = db.collection("likes");
-    collection.insertOne({ email: email, postId: id });
+    await collection.insertOne({ email: email, postId: id });
+    res.status(200).json({ message: "Success!" });
     client.close();
   }
 
@@ -38,6 +39,7 @@ const handler: NextApiHandler = async (req, res) => {
     const db = client.db(process.env.mongodb_database);
     const collection = db.collection("likes");
     await collection.deleteOne({ postId: id, email: email });
+    res.status(200).json({ message: "Success!" });
     client.close();
   }
 };

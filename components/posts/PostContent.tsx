@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
-import { Box, Button, Divider, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Paper,
+  Typography,
+} from "@mui/material";
 import { getSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { numberTypeAnnotation } from "@babel/types";
-import { isNumber } from "util";
 
 type postType = {
   post: {
@@ -26,7 +31,7 @@ const PostContent: React.FC<postType> = (props) => {
   const router = useRouter();
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [markdown, setMarkdown] = useState("");
-  const [likeCount, setLikeCount] = useState<number | undefined>();
+  const [likeCount, setLikeCount] = useState<number>(0);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const newUrl = post!.replace(
     "https://forus-s3.s3.ap-northeast-2.amazonaws.com/next-s3-uploads/",
@@ -42,7 +47,7 @@ const PostContent: React.FC<postType> = (props) => {
       setLikeCount(likes);
       setIsLiked(isLiked);
     });
-  }, [newUrl]);
+  }, [newUrl, router.query.id]);
 
   useEffect(() => {
     getSession().then((session) => {
@@ -61,8 +66,18 @@ const PostContent: React.FC<postType> = (props) => {
     });
   }, []);
 
-  const onLikeHandler = () => {};
-  const onDislikeHandler = () => {};
+  const onLikeHandler = () => {
+    axios.post(`/api/posts/${router.query.id}/like`);
+
+    setLikeCount((prevState) => prevState + 1);
+    setIsLiked(true);
+  };
+  const onDislikeHandler = () => {
+    axios.delete(`/api/posts/${router.query.id}/like`);
+
+    setLikeCount((prevState) => prevState - 1);
+    setIsLiked(false);
+  };
 
   return (
     <React.Fragment>
@@ -106,8 +121,16 @@ const PostContent: React.FC<postType> = (props) => {
               <Divider />
               {typeof likeCount === "number" && (
                 <Box sx={{ margin: "20px auto" }}>
-                  {!isLiked && <FavoriteBorderIcon sx={{ fontSize: 50 }} />}
-                  {isLiked && <FavoriteIcon sx={{ fontSize: 50 }} />}
+                  {!isLiked && (
+                    <IconButton onClick={onLikeHandler}>
+                      <FavoriteBorderIcon sx={{ fontSize: 50 }} />
+                    </IconButton>
+                  )}
+                  {isLiked && (
+                    <IconButton onClick={onDislikeHandler}>
+                      <FavoriteIcon sx={{ fontSize: 50 }} />
+                    </IconButton>
+                  )}
                   <Typography>{likeCount} likes</Typography>
                 </Box>
               )}
