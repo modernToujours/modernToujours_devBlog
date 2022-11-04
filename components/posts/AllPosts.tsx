@@ -24,7 +24,6 @@ const AllPosts: React.FC<{ posts: posts }> = ({ posts }) => {
           const { email } = session.user!;
 
           axios.get(`/api/user/provider?email=${email}`).then((res) => {
-            console.log(res.data.userType);
             if (res.data.userType === "admin") {
               setIsAdmin(true);
             }
@@ -32,7 +31,7 @@ const AllPosts: React.FC<{ posts: posts }> = ({ posts }) => {
         }
       });
     }
-  }, []);
+  }, [userSession]);
 
   return (
     <Box
@@ -47,16 +46,7 @@ const AllPosts: React.FC<{ posts: posts }> = ({ posts }) => {
           </Link>
         )}
       </React.Fragment>
-      <Typography
-        variant="h1"
-        sx={{
-          fontSize: { xs: "50px", sm: "70px" },
-          textAlign: "center",
-          marginBottom: "30px",
-        }}
-      >
-        All Posts
-      </Typography>
+
       <Grid
         container
         spacing={{ xs: 2, md: 3 }}
