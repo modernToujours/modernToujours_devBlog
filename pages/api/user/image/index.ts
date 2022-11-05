@@ -1,13 +1,21 @@
 import { NextApiHandler } from "next";
-import {} from "next/server";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
-import { connectDatabase } from "../../../lib/connect";
+import { connectDatabase } from "../../../../lib/connect";
 
 const handler: NextApiHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
+  if (req.method === "GET") {
+    const email = req.body.email;
+    const client = await connectDatabase();
+
+    const usersCollection = client.db("devblog").collection("users");
+
+    const user = await usersCollection.findOne({ email: email });
+    res.status(200).json({ imgUrl: user!.image });
+  }
   if (req.method !== "PATCH") return;
 
   const session = await getSession({ req: req });
