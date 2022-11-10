@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Divider, TextField, Box } from "@mui/material";
 import { Typography, Button, Snackbar, Alert } from "@mui/material";
-import CardForm from "../layout/main/CardForm";
+import CardForm from "../../layout/main/CardForm";
 import axios, { AxiosResponse } from "axios";
 
 type UserType = { name: string; email: string; password: string };

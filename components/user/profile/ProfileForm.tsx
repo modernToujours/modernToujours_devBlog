@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Session } from "next-auth";
 import { useS3Upload } from "next-s3-upload";
 import { Typography, Card, TextField, Button } from "@mui/material";
-import CardForm from "../layout/main/CardForm";
+import CardForm from "../../layout/main/CardForm";
 import axios from "axios";
 
 const ProfileForm = ({ session }: { session: Session | null }) => {

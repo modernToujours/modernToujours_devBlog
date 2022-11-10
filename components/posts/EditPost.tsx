@@ -6,10 +6,9 @@ import React from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { post } from "./types";
 
-type Post = { _id: string; title: string; image: string; post: string };
-
-const EditPost: React.FC<{ post: Post }> = ({ post }) => {
+const EditPost: React.FC<{ post: post }> = ({ post }) => {
   const editorRef = useRef<Editor | null>(null);
   const [title, setTitle] = useState<string>(post.title);
   const [imgUrl, setImgUrl] = useState<string>(post.image);
