@@ -1,8 +1,8 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect } from "react";
 import { queryKeys } from "../../../react-query/contants";
 import { post } from "../../../components/posts/types";
+import queryClient from "../../../react-query/queryClient";
 
 const getPosts = async () => {
   const { data } = await axios.get(
@@ -19,9 +19,16 @@ const getPost = async (postId: string) => {
   return data.post[0];
 };
 
-export const usePosts = () => {
-  // const queryClient = useQueryClient();
+const addPost = async (post: post) => {
+  const { data } = await axios.post<post>(
+    `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/posts`,
+    post
+  );
 
+  return data._id;
+};
+
+export const usePosts = () => {
   const fallback: post[] = [];
 
   const { data: posts = fallback } = useQuery<post[]>(
@@ -46,4 +53,10 @@ export const usePost = (postId: string) => {
 export const usePrefetchPosts = () => {
   const queryClient = useQueryClient();
   queryClient.prefetchQuery({ queryKey: [queryKeys.posts], queryFn: getPosts });
+};
+
+export const useSavePost = () => {
+  return useMutation(["posts"], (post: post) => addPost(post), {
+    onSuccess: () => queryClient.invalidateQueries(["posts"]),
+  });
 };

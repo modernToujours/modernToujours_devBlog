@@ -5,6 +5,8 @@ import { useS3Upload } from "next-s3-upload";
 import { Box, Button, TextField } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { post } from "./types";
+import { useSavePost } from "./hooks/usePosts";
 
 const FormEditor = () => {
   const editorRef = useRef<Editor | null>(null);
@@ -12,6 +14,8 @@ const FormEditor = () => {
   const [imgUrl, setImgUrl] = useState("");
 
   const router = useRouter();
+
+  const mutatePost = useSavePost();
 
   const { uploadToS3 } = useS3Upload();
 
@@ -24,9 +28,13 @@ const FormEditor = () => {
 
     const { url } = await uploadToS3(file);
 
-    axios
-      .post("/api/posts/add", { title: title, image: imgUrl, post: url })
-      .then((res) => router.push("/posts"));
+    // axios
+    //   .post("/api/posts", { title: title, image: imgUrl, post: url })
+    const post: post = { title: title, image: imgUrl, post: url };
+
+    await mutatePost.mutateAsync(post);
+
+    router.push("/posts");
   };
 
   useEffect(() => {
