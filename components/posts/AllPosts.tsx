@@ -54,7 +54,7 @@ const AllPosts: React.FC<{ posts: posts }> = ({ posts }) => {
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
         {posts.map((post) => (
-          <PostItem key={post._id.toString()} post={post} />
+          <PostItem key={post._id!.toString()} post={post} />
         ))}
       </Grid>
     </Box>
