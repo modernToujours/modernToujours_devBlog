@@ -6,10 +6,7 @@ import axios from "axios";
 import Link from "next/link";
 import { ObjectId } from "mongodb";
 import PostItem from "./PostItem";
-
-type post = { _id: ObjectId; title: string; image: string; post: string };
-
-type posts = post[];
+import { posts } from "./types";
 
 const AllPosts: React.FC<{ posts: posts }> = ({ posts }) => {
   const [userSession, setUserSession] = useState<Session | null>(null);
@@ -32,6 +29,10 @@ const AllPosts: React.FC<{ posts: posts }> = ({ posts }) => {
       });
     }
   }, [userSession]);
+
+  if (!posts) {
+    return <div>Loading..</div>;
+  }
 
   return (
     <Box

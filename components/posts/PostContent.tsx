@@ -16,18 +16,8 @@ import Image from "next/image";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
-type postType = {
-  post: {
-    _id?: string;
-    title?: string;
-    image?: string;
-    post?: string;
-  };
-};
-
-const PostContent: React.FC<postType> = (props) => {
-  const { post: postProp } = props;
-  const { title, post } = postProp;
+const PostContent: React.FC<{ post: string; title: string }> = (props) => {
+  const { title, post } = props;
   const router = useRouter();
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [markdown, setMarkdown] = useState("");
