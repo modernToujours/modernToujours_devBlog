@@ -3,8 +3,10 @@ import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { Fragment } from "react";
 import Hero from "../components/main-page/Hero";
+import { usePrefetchPosts } from "../components/posts/hooks/usePosts";
 
 const Home: NextPage = () => {
+  usePrefetchPosts();
   return (
     <Fragment>
       <Head>

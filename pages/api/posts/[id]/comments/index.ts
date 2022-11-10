@@ -26,6 +26,7 @@ const handler: NextApiHandler = async (req, res) => {
     const result = await collection.find({ postId: postId }).toArray();
 
     res.status(200).json({ comments: result });
+    client.close();
   }
 };
 
