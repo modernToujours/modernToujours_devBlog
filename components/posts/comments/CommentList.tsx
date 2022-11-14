@@ -1,3 +1,4 @@
+import { CircularProgress } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
 import React from "react";
@@ -8,7 +9,11 @@ const CommentList: React.FC = () => {
   const router = useRouter();
   const postId = router.query.id as string;
 
-  const { comments } = useComments(postId);
+  const { comments, isLoading } = useComments(postId);
+
+  if (isLoading) {
+    return <CircularProgress />;
+  }
 
   return (
     <Box

@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
 import { GetStaticProps, NextPage } from "next";
 import AllPosts from "../../components/posts/AllPosts";
 import axios from "axios";
-import { ObjectId } from "mongodb";
 import { usePosts } from "../../components/posts/hooks/usePosts";
 import { Posts } from "../../components/posts/types";
+import { CircularProgress } from "@mui/material";
 
 const AllPostsPage: NextPage<{ posts: Posts }> = (props) => {
-  const { posts } = usePosts();
+  const { posts, isLoading } = usePosts();
+
+  if (isLoading) {
+    return <CircularProgress />;
+  }
 
   return <AllPosts posts={posts} />;
 };
@@ -20,6 +23,6 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: { posts: posts },
-    revalidate: 600,
+    revalidate: 60,
   };
 };
