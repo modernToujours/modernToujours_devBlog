@@ -4,11 +4,10 @@ import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import axios from "axios";
 import Link from "next/link";
-import { ObjectId } from "mongodb";
 import PostItem from "./PostItem";
-import { posts } from "./types";
+import { Posts } from "./types";
 
-const AllPosts: React.FC<{ posts: posts }> = ({ posts }) => {
+const AllPosts: React.FC<{ posts: Posts }> = ({ posts }) => {
   const [userSession, setUserSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 

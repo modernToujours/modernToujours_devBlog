@@ -4,9 +4,9 @@ import AllPosts from "../../components/posts/AllPosts";
 import axios from "axios";
 import { ObjectId } from "mongodb";
 import { usePosts } from "../../components/posts/hooks/usePosts";
-import { post } from "../../components/posts/types";
+import { Posts } from "../../components/posts/types";
 
-const AllPostsPage: NextPage<{ posts: post[] }> = (props) => {
+const AllPostsPage: NextPage<{ posts: Posts }> = (props) => {
   const { posts } = usePosts();
 
   return <AllPosts posts={posts} />;

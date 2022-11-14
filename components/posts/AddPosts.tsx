@@ -3,9 +3,8 @@ import { Editor } from "@toast-ui/react-editor";
 import { useState, useEffect, useRef } from "react";
 import { useS3Upload } from "next-s3-upload";
 import { Box, Button, TextField } from "@mui/material";
-import axios from "axios";
 import { useRouter } from "next/router";
-import { post } from "./types";
+import { Post } from "./types";
 import { useSavePost } from "./hooks/usePosts";
 
 const FormEditor = () => {
@@ -28,9 +27,7 @@ const FormEditor = () => {
 
     const { url } = await uploadToS3(file);
 
-    // axios
-    //   .post("/api/posts", { title: title, image: imgUrl, post: url })
-    const post: post = { title: title, image: imgUrl, post: url };
+    const post: Post = { title: title, image: imgUrl, post: url };
 
     await mutatePost.mutateAsync(post);
 
