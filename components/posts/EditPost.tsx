@@ -6,9 +6,10 @@ import React from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { post } from "./types";
+import { Post } from "./types";
+import { useDeletePost } from "./hooks/usePosts";
 
-const EditPost: React.FC<{ post: post }> = ({ post }) => {
+const EditPost: React.FC<{ post: Post }> = ({ post }) => {
   const editorRef = useRef<Editor | null>(null);
   const [title, setTitle] = useState<string>(post.title);
   const [imgUrl, setImgUrl] = useState<string>(post.image);
@@ -18,6 +19,8 @@ const EditPost: React.FC<{ post: post }> = ({ post }) => {
     "https://forus-s3.s3.ap-northeast-2.amazonaws.com/next-s3-uploads/",
     "/s3/"
   ) as string;
+
+  const mutatePost = useDeletePost();
 
   const { uploadToS3 } = useS3Upload();
 
@@ -68,7 +71,10 @@ const EditPost: React.FC<{ post: post }> = ({ post }) => {
   };
 
   const deleteHandler = async () => {
-    axios.delete(`/api/posts/${post._id}`);
+    const postId = post._id!.toString();
+
+    await mutatePost.mutateAsync(postId);
+
     router.push("/posts");
   };
 
