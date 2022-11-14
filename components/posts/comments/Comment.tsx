@@ -1,29 +1,21 @@
 import { Box, Card, IconButton, TextField, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
-import { ObjectId } from "mongodb";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { Comment as CommentType } from "../types";
+import { useDeleteComment } from "../hooks/useComments";
 
-type CommentPropsType = {
-  comment: {
-    _id: ObjectId;
-    postId: string;
-    email: string;
-    name: string;
-    comment: string;
-    upperComment: string;
-    img: string | null;
-  };
-};
-
-const Comment: React.FC<CommentPropsType> = ({ comment }) => {
+const Comment: React.FC<{ comment: CommentType }> = ({ comment }) => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const postId = router.query.id;
+  const postId = router.query.id as string;
+  const commentId = comment._id?.toString() as string;
   const [imgUrl, setImgUrl] = useState<string>("/images/no-profile-image.png");
+  const mutateComment = useDeleteComment();
+
   useEffect(() => {
     axios.get(`/api/user/image/${comment.email}`).then((res) => {
       if (res.data.imgUrl) {
@@ -32,8 +24,8 @@ const Comment: React.FC<CommentPropsType> = ({ comment }) => {
     });
   }, [comment.email]);
 
-  const deleteCommentHandler = () => {
-    axios.delete(`/api/posts/${postId}/comments/${comment._id.toString()}`);
+  const deleteCommentHandler = async () => {
+    await mutateComment.mutateAsync({ postId, commentId });
   };
   return (
     <Box

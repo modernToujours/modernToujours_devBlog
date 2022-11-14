@@ -1,35 +1,14 @@
-import { TextField } from "@mui/material";
 import { Box } from "@mui/system";
-import axios from "axios";
-import { ObjectId } from "mongodb";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useComments } from "../hooks/useComments";
 import Comment from "./Comment";
-
-type CommentType = {
-  _id: ObjectId;
-  postId: string;
-  email: string;
-  name: string;
-  comment: string;
-  upperComment: string;
-  img: string | null;
-};
 
 const CommentList: React.FC = () => {
   const router = useRouter();
-  const postId = router.query.id;
+  const postId = router.query.id as string;
 
-  const [comments, setComments] = useState<CommentType[]>([]);
-
-  useEffect(() => {
-    axios
-      .get(`/api/posts/${postId}/comments`)
-      .then((res) => res.data.comments)
-      .then((res) => {
-        setComments(res);
-      });
-  }, [postId]);
+  const { comments } = useComments(postId);
 
   return (
     <Box
@@ -48,7 +27,7 @@ const CommentList: React.FC = () => {
         }}
       >
         {comments.map((comment) => {
-          return <Comment key={comment._id.toString()} comment={comment} />;
+          return <Comment key={comment._id!.toString()} comment={comment} />;
         })}
       </Box>
     </Box>
