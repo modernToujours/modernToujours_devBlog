@@ -3,8 +3,7 @@ import { ObjectId } from "mongodb";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
-type post = { _id: ObjectId; title: string; image: string; post: string };
+import { post } from "./types";
 
 const PostItem: React.FC<{ post: post }> = ({ post }) => {
   return (
@@ -40,7 +39,7 @@ const PostItem: React.FC<{ post: post }> = ({ post }) => {
           <Link
             href={{
               pathname: "/posts/[id]",
-              query: { id: post._id.toString() },
+              query: { id: post._id!.toString() },
             }}
           >
             <CardContent sx={{ cursor: "pointer" }}>

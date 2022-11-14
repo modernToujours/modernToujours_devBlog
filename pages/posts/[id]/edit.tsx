@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 
 type PostPageProps = { id: string };
 import dynamic from "next/dynamic";
+import { usePost } from "../../../components/posts/hooks/usePosts";
 
 const EditPost = dynamic(
   () =>
@@ -19,27 +20,10 @@ const EditPost = dynamic(
 type Post = { _id: string; title: string; image: string; post: string };
 
 const EditPage: NextPage<PostPageProps> = (props) => {
-  const [postId, setPostId] = useState<string | null>(props?.id);
-  const [post, setPost] = useState<Post>();
   const router = useRouter();
+  const postId = router.query.id as string;
 
-  useEffect(() => {
-    if (!postId) {
-      const id = router.query.id as string;
-
-      setPostId(id);
-    }
-    if (postId) {
-      axios
-        .get("/api/posts?id=" + postId)
-        .then((res) => {
-          return res.data.post[0];
-        })
-        .then((res) => {
-          setPost(res);
-        });
-    }
-  }, [postId, router.query.id]);
+  const { post } = usePost(postId);
 
   if (!post) {
     return <div>Loading...</div>;

@@ -1,9 +1,9 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { Session } from "next-auth";
-import { getSession, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import ProfileForm from "../../components/profile/ProfileForm";
+import ProfileForm from "../../components/user/profile/ProfileForm";
 
 const ProfilePage = ({ session }: { session: Session | null }) => {
   const router = useRouter();

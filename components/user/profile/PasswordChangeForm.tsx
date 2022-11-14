@@ -2,7 +2,7 @@ import { Divider, TextField, Typography, Button } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import CardForm from "../layout/main/CardForm";
+import CardForm from "../../layout/main/CardForm";
 import { useRouter } from "next/router";
 
 const PasswordChangeForm = () => {

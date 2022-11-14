@@ -2,7 +2,6 @@ import { Box } from "@mui/material";
 import axios from "axios";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
 import Comments from "../../../components/posts/comments/Comments";
 import { usePost } from "../../../components/posts/hooks/usePosts";
 import PostContent from "../../../components/posts/PostContent";

@@ -1,22 +1,30 @@
 import { Box, Button, TextField } from "@mui/material";
-import axios from "axios";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useSaveComment } from "../hooks/useComments";
+import { Comment } from "../types";
 
 const AddComment = () => {
   const router = useRouter();
-  const postId = router.query.id;
+  const postId = router.query.id as string;
+  const mutateComment = useSaveComment();
 
-  const [comment, setComment] = useState<string>("");
+  const [commentContent, setCommentContent] = useState<string>("");
 
   const onAddComment = () => {
     getSession().then((session) => {
       if (!session?.user) return;
-      const { email, name } = session.user;
-      axios
-        .post(`/api/posts/${postId}/comments`, { email, name, comment })
-        .then((res) => console.log(res));
+      const email = session.user.email as string;
+      const name = session.user.name as string;
+      const comment: Comment = {
+        email: email,
+        name: name,
+        comment: commentContent,
+        upperComment: null,
+        postId: postId,
+      };
+      mutateComment.mutateAsync(comment);
     });
   };
 
@@ -38,8 +46,8 @@ const AddComment = () => {
       >
         <TextField
           label="댓글 작성하기"
-          value={comment}
-          onChange={(event) => setComment(event.target.value)}
+          value={commentContent}
+          onChange={(event) => setCommentContent(event.target.value)}
           sx={{ margin: "10px 0" }}
           multiline
           rows={5}
