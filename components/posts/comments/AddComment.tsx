@@ -31,6 +31,7 @@ const AddComment = () => {
         upperComment: null,
         postId: postId,
       };
+      setCommentContent("");
       mutateComment.mutateAsync(comment);
     });
   };

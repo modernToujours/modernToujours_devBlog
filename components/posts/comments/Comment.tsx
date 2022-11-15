@@ -5,11 +5,15 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { Comment as CommentType } from "../types";
+import { Comment as CommentType, Comments } from "../types";
 import { useDeleteComment } from "../hooks/useComments";
 import AddSubComment from "./AddSubComment";
+import SubComment from "./SubComment";
 
-const Comment: React.FC<{ comment: CommentType }> = ({ comment }) => {
+const Comment: React.FC<{ comment: CommentType; subComments?: Comments }> = ({
+  comment,
+  subComments,
+}) => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const postId = router.query.id as string;
@@ -69,7 +73,11 @@ const Comment: React.FC<{ comment: CommentType }> = ({ comment }) => {
         )}
       </Box>
       <TextField sx={{ marginTop: "5px" }} disabled value={comment.comment} />
-      <AddSubComment />
+      {subComments &&
+        subComments.map((comment) => {
+          return <SubComment key={comment._id!.toString()} comment={comment} />;
+        })}
+      <AddSubComment commentId={commentId} />
     </Box>
   );
 };
