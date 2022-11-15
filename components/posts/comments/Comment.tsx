@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { Comment as CommentType } from "../types";
 import { useDeleteComment } from "../hooks/useComments";
+import AddSubComment from "./AddSubComment";
 
 const Comment: React.FC<{ comment: CommentType }> = ({ comment }) => {
   const router = useRouter();
@@ -68,6 +69,7 @@ const Comment: React.FC<{ comment: CommentType }> = ({ comment }) => {
         )}
       </Box>
       <TextField sx={{ marginTop: "5px" }} disabled value={comment.comment} />
+      <AddSubComment />
     </Box>
   );
 };
