@@ -17,12 +17,13 @@ const Comment: React.FC<{ comment: CommentType }> = ({ comment }) => {
   const mutateComment = useDeleteComment();
 
   useEffect(() => {
-    axios.get(`/api/user/image/${comment.email}`).then((res) => {
-      if (res.data.imgUrl) {
-        setImgUrl(res.data.imgUrl);
-      }
-    });
-  }, [comment.email]);
+    comment.name !== "비회원" &&
+      axios.get(`/api/user/image/${comment.email}`).then((res) => {
+        if (res.data.imgUrl) {
+          setImgUrl(res.data.imgUrl);
+        }
+      });
+  }, [comment.email, comment.name]);
 
   const deleteCommentHandler = async () => {
     await mutateComment.mutateAsync({ postId, commentId });

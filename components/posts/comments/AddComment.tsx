@@ -14,9 +14,16 @@ const AddComment = () => {
 
   const onAddComment = () => {
     getSession().then((session) => {
-      if (!session?.user) return;
-      const email = session.user.email as string;
-      const name = session.user.name as string;
+      let email: string;
+      let name: string;
+
+      if (!session?.user) {
+        email = "notuser@moderntoujour.dev";
+        name = "비회원";
+      } else {
+        email = session.user.email as string;
+        name = session.user.name as string;
+      }
       const comment: Comment = {
         email: email,
         name: name,
