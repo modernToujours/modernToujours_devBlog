@@ -11,6 +11,7 @@ const handler: NextApiHandler = async (req, res) => {
 
     await collection.insertOne({ name: name });
 
+    res.status(201).json({ message: "Success!" });
     client.close();
   } else if (req.method === "GET") {
     const client = await connectDatabase();
