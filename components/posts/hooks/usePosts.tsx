@@ -38,23 +38,23 @@ const deletePost = async (postId: string) => {
 export const usePosts = () => {
   const fallback: Posts = [];
 
-  const { data: posts = fallback } = useQuery<Posts>(
+  const { data: posts = fallback, isLoading } = useQuery<Posts>(
     [queryKeys.posts],
     getPosts
   );
 
-  return { posts };
+  return { posts, isLoading };
 };
 
 export const usePost = (postId: string) => {
   const fallback = undefined;
 
-  const { data: post = fallback } = useQuery<Post>({
+  const { data: post = fallback, isLoading } = useQuery<Post>({
     queryKey: [queryKeys.posts, postId],
     queryFn: () => getPost(postId),
   });
 
-  return { post };
+  return { post, isLoading };
 };
 
 export const usePrefetchPosts = () => {

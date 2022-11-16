@@ -46,12 +46,12 @@ const deleteComment = async ({
 export const useComments = (postId: string) => {
   const fallback: Comments = [];
 
-  const { data: comments = fallback } = useQuery<Comments>({
+  const { data: comments = fallback, isLoading } = useQuery<Comments>({
     queryKey: [queryKeys.comments, postId],
     queryFn: () => getComments(postId),
   });
 
-  return { comments };
+  return { comments, isLoading };
 };
 
 export const useSaveComment = () => {
