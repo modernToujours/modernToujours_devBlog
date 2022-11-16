@@ -5,6 +5,7 @@ export type Post = {
   title: string;
   image: string;
   post: string;
+  category: string;
 };
 
 export type Posts = Post[];

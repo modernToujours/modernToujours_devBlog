@@ -6,14 +6,17 @@ import { Categories, Category } from "../types";
 
 const getCategories = async () => {
   const { data } = await axios.get(
-    "${process.env.NEXT_PUBLIC_VERCEL_URL}/api/category"
+    `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/category`
   );
   return data.categories;
 };
 
 const addCategory = async (category: Category) => {
   const { name } = category;
-  const { data } = await axios.post("/api/posts/category", { name: name });
+  const { data } = await axios.post(
+    `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/category`,
+    { name: name }
+  );
 
   return data;
 };
