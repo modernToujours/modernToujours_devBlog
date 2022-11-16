@@ -1,6 +1,6 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
-import PasswordChangeForm from "../../components/profile/PasswordChangeForm";
+import PasswordChangeForm from "../../components/user/profile/PasswordChangeForm";
 
 const PasswordChangePage = () => {
   return <PasswordChangeForm />;

@@ -19,7 +19,7 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
-import CardForm from "../layout/main/CardForm";
+import CardForm from "../../layout/main/CardForm";
 
 const LoginForm: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);

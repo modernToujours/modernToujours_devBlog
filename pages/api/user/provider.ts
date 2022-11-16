@@ -1,10 +1,7 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { connectDatabase } from "../../../lib/connect";
 
-const handler: NextApiHandler = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
+const handler: NextApiHandler = async (req, res) => {
   if (req.method !== "GET") return;
   const {
     query: { email },

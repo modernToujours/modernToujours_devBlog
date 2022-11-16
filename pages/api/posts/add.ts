@@ -7,7 +7,6 @@ const handler: NextApiHandler = async (req, res) => {
     return;
   }
 
-  console.log(req.body);
   const { title, image, post } = req.body;
 
   const newPost = { title, image, post };
@@ -35,7 +34,6 @@ const handler: NextApiHandler = async (req, res) => {
     res.status(500).json({ message: "Storing posts failed!" });
     return;
   }
-  console.log(result);
   res.status(201).json({ message: "Success!" });
   client.close();
 };

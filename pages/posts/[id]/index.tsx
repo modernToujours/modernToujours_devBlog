@@ -2,40 +2,30 @@ import { Box } from "@mui/material";
 import axios from "axios";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
 import Comments from "../../../components/posts/comments/Comments";
+import { usePost } from "../../../components/posts/hooks/usePosts";
 import PostContent from "../../../components/posts/PostContent";
 
 type PostPageProps = { id: string };
 
 const PostPage: NextPage<PostPageProps> = (props) => {
-  const [postId, setPostId] = useState<string>(props?.id);
-  const [post, setPost] = useState(null);
   const router = useRouter();
+  let postId: string;
+  if (props.id) {
+    postId = props.id;
+  } else {
+    postId = router.query.id as string;
+  }
 
-  useEffect(() => {
-    if (!postId) {
-      const id = router.query.id as string;
-      setPostId(id);
-    }
-    if (postId) {
-      axios
-        .get("/api/posts?id=" + postId)
-        .then((res) => {
-          return res.data.post[0];
-        })
-        .then((res) => {
-          setPost(res);
-        });
-    }
-  }, [postId, router.query.id]);
+  const { post } = usePost(postId);
+
   if (!post) {
     return <div>Loading...</div>;
   }
   return (
     post && (
       <Box>
-        <PostContent post={post} />
+        <PostContent post={post.post} title={post.title} />
         <Comments postId={postId} />
       </Box>
     )

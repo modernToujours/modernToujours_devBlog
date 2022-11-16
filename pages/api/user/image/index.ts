@@ -15,6 +15,7 @@ const handler: NextApiHandler = async (
 
     const user = await usersCollection.findOne({ email: email });
     res.status(200).json({ imgUrl: user!.image });
+    client.close();
   }
   if (req.method !== "PATCH") return;
 
@@ -46,8 +47,8 @@ const handler: NextApiHandler = async (
     { $set: { image: newImageUrl } }
   );
 
-  client.close();
   res.status(200).json({ message: "Image changed!" });
+  client.close();
 };
 
 export default handler;

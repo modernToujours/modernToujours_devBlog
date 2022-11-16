@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import Head from "next/head";
-import LoginForm from "../../components/login/LoginForm";
+import LoginForm from "../../components/user/login/LoginForm";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
 

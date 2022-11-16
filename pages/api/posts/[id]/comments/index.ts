@@ -4,7 +4,7 @@ import { connectDatabase } from "../../../../../lib/connect";
 const handler: NextApiHandler = async (req, res) => {
   const postId = req.query.id as string;
   if (req.method === "POST") {
-    const { email, name, comment } = req.body;
+    const { email, name, comment, upperComment } = req.body;
 
     const client = await connectDatabase();
     const db = client.db(process.env.mongodb_database);
@@ -14,7 +14,7 @@ const handler: NextApiHandler = async (req, res) => {
       email: email,
       name: name,
       comment: comment,
-      upperComment: null,
+      upperComment: upperComment,
     });
     res.status(200).json({ message: "Success!" });
     client.close();
@@ -26,6 +26,7 @@ const handler: NextApiHandler = async (req, res) => {
     const result = await collection.find({ postId: postId }).toArray();
 
     res.status(200).json({ comments: result });
+    client.close();
   }
 };
 
