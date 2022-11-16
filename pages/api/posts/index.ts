@@ -4,7 +4,7 @@ import { connectDatabase } from "../../../lib/connect";
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === "POST") {
-    const { title, image, post } = req.body;
+    const { title, image, post, category } = req.body;
 
     let client: MongoClient;
     let result: InsertOneResult;
@@ -23,6 +23,7 @@ const handler: NextApiHandler = async (req, res) => {
         title: title,
         image: image,
         post: post,
+        category: category,
       });
     } catch (error) {
       client.close();
