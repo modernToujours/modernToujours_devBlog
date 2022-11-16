@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import axios from "axios";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
@@ -17,18 +17,20 @@ const PostPage: NextPage<PostPageProps> = (props) => {
     postId = router.query.id as string;
   }
 
-  const { post } = usePost(postId);
+  const { post, isLoading } = usePost(postId);
 
-  if (!post) {
-    return <div>Loading...</div>;
+  if (isLoading) {
+    return (
+      <Box>
+        <CircularProgress />
+      </Box>
+    );
   }
   return (
-    post && (
-      <Box>
-        <PostContent post={post.post} title={post.title} />
-        <Comments postId={postId} />
-      </Box>
-    )
+    <Box>
+      <PostContent post={post!.post} title={post!.title} />
+      <Comments postId={postId} />
+    </Box>
   );
 };
 
@@ -47,7 +49,7 @@ export const getStaticProps: GetStaticProps = (context) => {
     props: {
       id,
     },
-    revalidate: 6000,
+    revalidate: 60,
   };
 };
 

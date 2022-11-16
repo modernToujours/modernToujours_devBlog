@@ -3,9 +3,9 @@ import { ObjectId } from "mongodb";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { post } from "./types";
+import { Post } from "./types";
 
-const PostItem: React.FC<{ post: post }> = ({ post }) => {
+const PostItem: React.FC<{ post: Post }> = ({ post }) => {
   return (
     <Grid item xs={4} sm={4} md={4}>
       <React.Fragment>

@@ -70,7 +70,7 @@ const PostContent: React.FC<{ post: string; title: string }> = (props) => {
   };
 
   return (
-    <Box>
+    <Box sx={{ maxWidth: "100vw" }}>
       <Paper
         elevation={3}
         sx={{
@@ -112,9 +112,10 @@ const PostContent: React.FC<{ post: string; title: string }> = (props) => {
                       }}
                     >
                       <Image
-                        width="500"
-                        height="500"
-                        layout="intrinsic"
+                        width="100%"
+                        height="100%"
+                        layout="responsive"
+                        objectFit="contain"
                         src={props.src!}
                         alt=""
                       />
