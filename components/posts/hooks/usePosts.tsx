@@ -12,6 +12,14 @@ const getPosts = async () => {
   return data.posts;
 };
 
+const getCategorizedPosts = async (category: string) => {
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/posts?category=${category}`
+  );
+
+  return data.posts;
+};
+
 const getPost = async (postId: string) => {
   const { data } = await axios.get(
     `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/posts?id=${postId}`
@@ -43,6 +51,20 @@ export const usePosts = () => {
     isLoading,
     isInitialLoading,
   } = useQuery<Posts>([queryKeys.posts], getPosts);
+
+  return { posts, isLoading, isInitialLoading };
+};
+
+export const useCategorizedPosts = (category: string) => {
+  const fallback: Posts = [];
+
+  const {
+    data: posts = fallback,
+    isLoading,
+    isInitialLoading,
+  } = useQuery<Posts>([queryKeys.posts, category], () =>
+    getCategorizedPosts(category)
+  );
 
   return { posts, isLoading, isInitialLoading };
 };

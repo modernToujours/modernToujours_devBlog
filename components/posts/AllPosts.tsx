@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactEventHandler, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -6,6 +6,7 @@ import {
   Grid,
   MenuItem,
   Select,
+  SelectChangeEvent,
 } from "@mui/material";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
@@ -14,8 +15,10 @@ import Link from "next/link";
 import PostItem from "./PostItem";
 import { Posts } from "./types";
 import { useCategories } from "./hooks/useCategories";
+import { useRouter } from "next/router";
 
 const AllPosts: React.FC<{ posts: Posts }> = ({ posts }) => {
+  const router = useRouter();
   const { categories, isLoading } = useCategories();
   const [userSession, setUserSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
@@ -39,9 +42,11 @@ const AllPosts: React.FC<{ posts: Posts }> = ({ posts }) => {
     }
   }, [userSession]);
 
-  if (!posts) {
-    return <div>Loading..</div>;
-  }
+  const categoryHandler = (event: SelectChangeEvent) => {
+    const newCategory = event.target.value;
+    router.push({ query: { category: newCategory } });
+    setCategory(newCategory);
+  };
 
   return (
     <Box
@@ -49,10 +54,7 @@ const AllPosts: React.FC<{ posts: Posts }> = ({ posts }) => {
     >
       <React.Fragment>
         <FormControl sx={{ m: 1, minWidth: 120 }}>
-          <Select
-            value={category}
-            onChange={(event) => setCategory(event.target.value)}
-          >
+          <Select value={category} onChange={categoryHandler}>
             <MenuItem value={"All"}>All</MenuItem>
             {!isLoading &&
               categories.map((item) => {
