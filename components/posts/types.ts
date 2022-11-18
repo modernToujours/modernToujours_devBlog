@@ -27,3 +27,9 @@ export type Category = {
 };
 
 export type Categories = Category[];
+
+export type Likes = {
+  _id?: ObjectId;
+  likes: number;
+  isLiked: boolean;
+};

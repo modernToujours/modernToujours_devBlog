@@ -13,16 +13,14 @@ import { getSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useDeleteLike, useLikes, useSaveLike } from "./hooks/useLikes";
+import Likes from "./Likes";
 
 const PostContent: React.FC<{ post: string; title: string }> = (props) => {
   const { title, post } = props;
   const router = useRouter();
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [markdown, setMarkdown] = useState("");
-  const [likeCount, setLikeCount] = useState<number>(0);
-  const [isLiked, setIsLiked] = useState<boolean>(false);
   const newUrl = post!.replace(
     "https://forus-s3.s3.ap-northeast-2.amazonaws.com/next-s3-uploads/",
     "/s3/"
@@ -32,12 +30,7 @@ const PostContent: React.FC<{ post: string; title: string }> = (props) => {
     axios.get(encodeURI(newUrl)).then((res) => {
       setMarkdown(res.data);
     });
-    axios.get(`/api/posts/${router.query.id}/like`).then((res) => {
-      const { likes, isLiked } = res.data;
-      setLikeCount(likes);
-      setIsLiked(isLiked);
-    });
-  }, [newUrl, router.query.id]);
+  }, [newUrl]);
 
   useEffect(() => {
     getSession().then((session) => {
@@ -55,19 +48,6 @@ const PostContent: React.FC<{ post: string; title: string }> = (props) => {
       }
     });
   }, []);
-
-  const onLikeHandler = () => {
-    axios.post(`/api/posts/${router.query.id}/like`);
-
-    setLikeCount((prevState) => prevState + 1);
-    setIsLiked(true);
-  };
-  const onDislikeHandler = () => {
-    axios.delete(`/api/posts/${router.query.id}/like`);
-
-    setLikeCount((prevState) => prevState - 1);
-    setIsLiked(false);
-  };
 
   return (
     <Box sx={{ maxWidth: "100vw" }}>
@@ -131,26 +111,7 @@ const PostContent: React.FC<{ post: string; title: string }> = (props) => {
                 {markdown}
               </ReactMarkdown>
               <Divider />
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  textAlign: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {!isLiked && (
-                  <IconButton onClick={onLikeHandler}>
-                    <FavoriteBorderIcon sx={{ fontSize: 50 }} />
-                  </IconButton>
-                )}
-                {isLiked && (
-                  <IconButton onClick={onDislikeHandler}>
-                    <FavoriteIcon sx={{ fontSize: 50 }} />
-                  </IconButton>
-                )}
-                <Typography>{likeCount} likes</Typography>
-              </Box>
+              <Likes />
             </Box>
           </Box>
         )}
