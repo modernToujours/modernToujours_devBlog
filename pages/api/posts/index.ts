@@ -51,6 +51,14 @@ const handler: NextApiHandler = async (req, res) => {
 
       const postsCollection = db.collection("posts");
 
+      if (req.query.category) {
+        const category = req.query.category as string;
+        const posts = await postsCollection
+          .find({ category: category })
+          .toArray();
+        res.status(200).json({ post: posts.reverse() });
+      }
+
       if (req.query.id) {
         const id = req.query.id as string;
         const posts = await postsCollection

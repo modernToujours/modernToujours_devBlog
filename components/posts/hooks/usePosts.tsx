@@ -38,12 +38,13 @@ const deletePost = async (postId: string) => {
 export const usePosts = () => {
   const fallback: Posts = [];
 
-  const { data: posts = fallback, isLoading } = useQuery<Posts>(
-    [queryKeys.posts],
-    getPosts
-  );
+  const {
+    data: posts = fallback,
+    isLoading,
+    isInitialLoading,
+  } = useQuery<Posts>([queryKeys.posts], getPosts);
 
-  return { posts, isLoading };
+  return { posts, isLoading, isInitialLoading };
 };
 
 export const usePost = (postId: string) => {

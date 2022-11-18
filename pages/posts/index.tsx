@@ -4,15 +4,27 @@ import axios from "axios";
 import { usePosts } from "../../components/posts/hooks/usePosts";
 import { Posts } from "../../components/posts/types";
 import { CircularProgress } from "@mui/material";
+import { useState, useEffect } from "react";
 
 const AllPostsPage: NextPage<{ posts: Posts }> = (props) => {
-  const { posts, isLoading } = usePosts();
+  const [postsData, setPostsData] = useState<Posts>(props.posts);
+  const [isLoading, setIsLoading] = useState(false);
+  const { posts, isInitialLoading } = usePosts();
+
+  useEffect(() => {
+    if (!isInitialLoading) {
+      setPostsData(posts);
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
+    }
+  }, [isInitialLoading, posts]);
 
   if (isLoading) {
     return <CircularProgress />;
   }
 
-  return <AllPosts posts={posts} />;
+  return <AllPosts posts={postsData} />;
 };
 
 export default AllPostsPage;
