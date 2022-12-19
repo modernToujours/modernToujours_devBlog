@@ -5,6 +5,7 @@ export type Post = {
   title: string;
   image: string;
   post: string;
+  category: string;
 };
 
 export type Posts = Post[];
@@ -19,3 +20,16 @@ export type Comment = {
 };
 
 export type Comments = Comment[];
+
+export type Category = {
+  _id?: ObjectId;
+  name: string;
+};
+
+export type Categories = Category[];
+
+export type Likes = {
+  _id?: ObjectId;
+  likes: number;
+  isLiked: boolean;
+};

@@ -4,7 +4,7 @@ import { connectDatabase } from "../../../lib/connect";
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === "POST") {
-    const { title, image, post } = req.body;
+    const { title, image, post, category } = req.body;
 
     let client: MongoClient;
     let result: InsertOneResult;
@@ -23,6 +23,7 @@ const handler: NextApiHandler = async (req, res) => {
         title: title,
         image: image,
         post: post,
+        category: category,
       });
     } catch (error) {
       client.close();
@@ -49,6 +50,14 @@ const handler: NextApiHandler = async (req, res) => {
       const db = client.db("devblog");
 
       const postsCollection = db.collection("posts");
+
+      if (req.query.category) {
+        const category = req.query.category as string;
+        const posts = await postsCollection
+          .find({ category: category })
+          .toArray();
+        res.status(200).json({ post: posts.reverse() });
+      }
 
       if (req.query.id) {
         const id = req.query.id as string;
