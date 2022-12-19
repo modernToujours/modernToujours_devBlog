@@ -1,15 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import React, { ReactEventHandler, useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import axios from "axios";
 import Link from "next/link";
 import PostItem from "./PostItem";
 import { Posts } from "./types";
+import { useCategories } from "./hooks/useCategories";
+import { useRouter } from "next/router";
 
 const AllPosts: React.FC<{ posts: Posts }> = ({ posts }) => {
+  const router = useRouter();
+  const { categories, isLoading } = useCategories();
   const [userSession, setUserSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [category, setCategory] = useState<string>("All");
 
   useEffect(() => {
     if (!userSession) {
@@ -29,14 +42,31 @@ const AllPosts: React.FC<{ posts: Posts }> = ({ posts }) => {
     }
   }, [userSession]);
 
-  if (!posts) {
-    return <div>Loading..</div>;
-  }
+  const categoryHandler = (event: SelectChangeEvent) => {
+    const newCategory = event.target.value;
+    router.push({ query: { category: newCategory } });
+    setCategory(newCategory);
+  };
 
   return (
     <Box
       sx={{ width: "90%", maxWidth: "60rem", margin: "40px auto", flexGrow: 1 }}
     >
+      <React.Fragment>
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
+          <Select value={category} onChange={categoryHandler}>
+            <MenuItem value={"All"}>All</MenuItem>
+            {!isLoading &&
+              categories.map((item) => {
+                return (
+                  <MenuItem key={item._id?.toString()} value={item.name}>
+                    {item.name}
+                  </MenuItem>
+                );
+              })}
+          </Select>
+        </FormControl>
+      </React.Fragment>
       <React.Fragment>
         {isAdmin && (
           <Link href="/posts/add">
@@ -52,9 +82,13 @@ const AllPosts: React.FC<{ posts: Posts }> = ({ posts }) => {
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
-        {posts.map((post) => (
-          <PostItem key={post._id!.toString()} post={post} />
-        ))}
+        {posts
+          .filter((post) =>
+            category === "All" ? true : post.category === category
+          )
+          .map((post) => (
+            <PostItem key={post._id!.toString()} post={post} />
+          ))}
       </Grid>
     </Box>
   );
