@@ -6,7 +6,7 @@ import Comments from "../../../components/posts/comments/Comments";
 import { usePost } from "../../../components/posts/hooks/usePosts";
 import PostContent from "../../../components/posts/PostContent";
 
-type PostPageProps = { id: string };
+type PostPageProps = { id: string; markdown: string };
 
 const PostPage: NextPage<PostPageProps> = (props) => {
   const router = useRouter();
@@ -17,7 +17,9 @@ const PostPage: NextPage<PostPageProps> = (props) => {
     postId = router.query.id as string;
   }
 
-  const { post, isLoading } = usePost(postId);
+  const { data, isLoading } = usePost(postId);
+
+  // const { markdown, isLoading: markdownIsLoading } = useMarkdown(post!.post);
 
   if (isLoading) {
     return (
@@ -28,7 +30,11 @@ const PostPage: NextPage<PostPageProps> = (props) => {
   }
   return (
     <Box>
-      <PostContent post={post!.post} title={post!.title} />
+      <PostContent
+        post={data!.post.post}
+        title={data!.post.title}
+        markdown={data!.markdown}
+      />
       <Comments postId={postId} />
     </Box>
   );
@@ -36,18 +42,27 @@ const PostPage: NextPage<PostPageProps> = (props) => {
 
 export default PostPage;
 
-export const getStaticProps: GetStaticProps = (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const { params } = context as {
     params: { id: string };
   };
 
   const { id } = params;
 
-  console.log("id : " + id);
+  const res = await axios.get(
+    `https://www.moderntoujours.dev/api/posts?id=${id}`
+  );
+
+  const { post } = res.data.post[0];
+
+  const encodedUrl = encodeURI(post);
+
+  const markdown = (await axios.get(encodedUrl)).data as string;
 
   return {
     props: {
       id,
+      markdown,
     },
     revalidate: 60,
   };

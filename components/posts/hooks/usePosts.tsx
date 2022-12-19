@@ -12,6 +12,16 @@ const getPosts = async () => {
   return data.posts;
 };
 
+const getMarkdown = async (markdownAddress: string) => {
+  const newUri = markdownAddress.replace(
+    "https://forus-s3.s3.ap-northeast-2.amazonaws.com/next-s3-uploads/",
+    "/s3/"
+  );
+  const { data } = await axios.get(encodeURI(newUri));
+
+  return data;
+};
+
 const getCategorizedPosts = async (category: string) => {
   const { data } = await axios.get(
     `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/posts?category=${category}`
@@ -24,7 +34,14 @@ const getPost = async (postId: string) => {
   const { data } = await axios.get(
     `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/posts?id=${postId}`
   );
-  return data.post[0];
+
+  const post = data.post[0];
+
+  const markdownAddress = post.post;
+
+  const markdown = await getMarkdown(markdownAddress);
+
+  return { post, markdown };
 };
 
 const addPost = async (post: Post) => {
@@ -72,12 +89,15 @@ export const useCategorizedPosts = (category: string) => {
 export const usePost = (postId: string) => {
   const fallback = undefined;
 
-  const { data: post = fallback, isLoading } = useQuery<Post>({
+  const { data = fallback, isLoading } = useQuery<{
+    post: Post;
+    markdown: string;
+  }>({
     queryKey: [queryKeys.posts, postId],
     queryFn: () => getPost(postId),
   });
 
-  return { post, isLoading };
+  return { data, isLoading };
 };
 
 export const usePrefetchPosts = () => {
