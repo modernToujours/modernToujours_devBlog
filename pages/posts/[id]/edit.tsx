@@ -23,13 +23,13 @@ const EditPage: NextPage<PostPageProps> = (props) => {
   const router = useRouter();
   const postId = router.query.id as string;
 
-  const { post } = usePost(postId);
+  const { data } = usePost(postId);
 
-  if (!post) {
+  if (!data) {
     return <div>Loading...</div>;
   }
 
-  return <EditPost post={post} />;
+  return <EditPost post={data!.post} />;
 };
 
 export default EditPage;
